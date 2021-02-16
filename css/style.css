@@ -156,7 +156,7 @@ SECTION WRAPS
 /* Header Wrap */
 
 #headerwrap {
-  background: url(../img/back.jpg) no-repeat center top;
+  background: url(../img/back.PNG) no-repeat center top;
   margin-top: 60px;
   padding-top: 140px;
   text-align: center;
@@ -176,12 +176,12 @@ SECTION WRAPS
 
 #headerwrap h1 {
   font-size: 80px;
-  color: white;
+  color: black;
 }
 
 #headerwrap h3 {
   font-size: 20px;
-  color: white;
+  color: black;
 }
 
 /* Intnro Wrap */
