@@ -75,9 +75,9 @@ panelbear_analytics: XXXXXXXXX # panelbear analytics site ID
 # Blog
 # -----------------------------------------------------------------------------
 
-blog_name: Bloggy Mc Blog Blog  # your blog must have a name for it to show up in the nav bar
-blog_description: Place to put down my thoughts and maybe teach someone something
-permalink: /blog/:year/:title/
+# blog_name: Bloggy Mc Blog Blog  # your blog must have a name for it to show up in the nav bar
+# blog_description: Place to put down my thoughts and maybe teach someone something
+# permalink: /blog/:year/:title/
 
 # Pagination
 pagination:
