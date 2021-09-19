@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Before and After
-description: How can we easilly detect grounded intent?
+title: Before and After dataset
+description: Can we use generative models to improved grounded language understanding?
 img: /assets/img/banda.jpeg
 importance: 1
 category: research

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Spoken language identification
+title: Generalising language identification systems
 description: End to end system to identify one of six South African languages from the NCHLT dataset.
 img: /assets/img/tel_system.png
 importance: 2
