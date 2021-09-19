@@ -7,8 +7,6 @@ description: Machine learning engineer and PhD Student
 profile:
   align: right
   image: prof_pic.jpeg
-  address: >
-    <p>The Shire</p>
 
 news: true  # includes a list of news items
 selected_papers: true # includes a list of papers marked as "selected={true}"
