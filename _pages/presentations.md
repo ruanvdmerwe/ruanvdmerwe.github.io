@@ -2,7 +2,12 @@
 layout: page
 permalink: /talks/
 title: talks
-description: In the works, but you will be able to find my talks here (be it for a reading group or an event).
+description: Talks given either for ByteFuse or for research
 nav: true
 ---
 
+ <h2>ByteFuse</h2>
+
+<dl>
+  <dt><a href="https://www.youtube.com/watch?v=RIvV1qw94FE&t=392">IndabaX Roadshow Event</a></dt>
+  <dt><strong>Introduction to our multimodal system designed at ByteFuse</strong></dt>
