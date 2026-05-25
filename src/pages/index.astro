@@ -1,8 +1,10 @@
 ---
 import Base from "~/layouts/Base.astro";
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import { SITE, SOCIAL } from "~/consts";
 import FormattedDate from "~/components/FormattedDate.astro";
+import portrait from "~/assets/ruan.jpeg";
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
@@ -18,10 +20,28 @@ const projects = (await getCollection("projects"))
 ---
 <Base>
   <section class="mb-14">
-    <p class="small-caps mb-3">{SITE.role}</p>
-    <h1 class="font-serif text-[2.4rem] sm:text-[3rem] leading-[1.05] tracking-tight mb-6">
-      {SITE.title}
-    </h1>
+    <div class="flex flex-col sm:flex-row sm:items-start sm:gap-8 mb-6">
+      <div class="shrink-0 mb-5 sm:mb-0">
+        <Image
+          src={portrait}
+          alt={`Photograph of ${SITE.author}`}
+          widths={[160, 320, 480]}
+          sizes="(min-width: 640px) 160px, 128px"
+          width={160}
+          height={160}
+          loading="eager"
+          format="webp"
+          quality={82}
+          class="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover border border-rule"
+        />
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="small-caps mb-3">{SITE.role}</p>
+        <h1 class="font-serif text-[2.4rem] sm:text-[3rem] leading-[1.05] tracking-tight">
+          {SITE.title}
+        </h1>
+      </div>
+    </div>
     <div class="prose-rvdm max-w-reading">
       <p>
         I&rsquo;m an applied machine learning researcher and AI leader based in {SITE.location.split(",")[0]},

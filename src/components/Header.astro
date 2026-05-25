@@ -9,11 +9,15 @@ const isActive = (href: string) => {
 };
 ---
 <header class="border-b border-rule">
-  <div class="max-w-3xl mx-auto px-5 sm:px-8 py-5 flex items-center justify-between gap-6">
-    <a href="/" class="font-serif text-[1.05rem] font-semibold tracking-tight !no-underline hover:!text-accent">
-      {SITE.title}
+  <div class="max-w-3xl mx-auto px-5 sm:px-8 py-5 flex items-center justify-between gap-4 sm:gap-6">
+    <a
+      href="/"
+      class="font-serif font-semibold tracking-tight !no-underline hover:!text-accent whitespace-nowrap text-sm sm:text-[1.05rem]"
+    >
+      <span class="hidden xs:inline">{SITE.title}</span>
+      <span class="xs:hidden">Ruan vdM</span>
     </a>
-    <nav class="flex items-center gap-x-4 sm:gap-x-5 text-sm">
+    <nav class="flex items-center gap-x-3 sm:gap-x-5 text-sm">
       {
         NAV.filter((item) => item.href !== "/").map((item) => (
           <a

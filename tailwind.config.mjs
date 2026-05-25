@@ -4,6 +4,9 @@ export default {
   darkMode: ["class", '[data-theme="dark"]'],
   theme: {
     extend: {
+      screens: {
+        xs: "480px",
+      },
       colors: {
         bg: "var(--bg)",
         surface: "var(--surface)",
