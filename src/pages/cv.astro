@@ -1,0 +1,124 @@
+---
+import Base from "~/layouts/Base.astro";
+import fs from "node:fs";
+import path from "node:path";
+import yaml from "js-yaml";
+
+type CV = {
+  name: string;
+  role: string;
+  location: string;
+  email: string;
+  links: { label: string; url: string }[];
+  profile: string;
+  research_themes: { name: string; description: string }[];
+  experience: {
+    title: string;
+    org: string;
+    period: string;
+    location?: string;
+    summary?: string;
+    bullets?: string[];
+  }[];
+  education: { degree: string; org: string; period: string }[];
+  expertise: { area: string; items: string }[];
+  community: string[];
+};
+
+const file = path.resolve("./src/data/cv.yaml");
+const cv = yaml.load(fs.readFileSync(file, "utf-8")) as CV;
+---
+<Base title="CV" description={`Curriculum vitae for ${cv.name}.`}>
+  <div class="flex items-center justify-between mb-6 no-print">
+    <h1 class="font-serif text-[2.2rem] sm:text-[2.6rem] tracking-tight">CV</h1>
+    <button
+      type="button"
+      onclick="window.print()"
+      class="text-xs small-caps !no-underline hover:!text-accent"
+    >print / save pdf</button>
+  </div>
+
+  <section class="mb-10">
+    <div class="font-serif text-xl mb-1">{cv.name}</div>
+    <div class="text-muted text-sm mb-3">{cv.role} · {cv.location}</div>
+    <div class="flex flex-wrap gap-x-3 gap-y-1 text-sm">
+      <a href={`mailto:${cv.email}`}>{cv.email}</a>
+      {cv.links.map((l) => (
+        <a href={l.url} target="_blank" rel="noopener" class="external">{l.label}</a>
+      ))}
+    </div>
+  </section>
+
+  <section class="mb-10">
+    <h2 class="small-caps mb-3">Profile</h2>
+    <p class="text-[1rem] leading-relaxed text-ink/90">{cv.profile}</p>
+  </section>
+
+  <section class="mb-10">
+    <h2 class="small-caps mb-4">Core research themes</h2>
+    <dl class="space-y-3">
+      {cv.research_themes.map((t) => (
+        <div>
+          <dt class="font-serif text-[1.05rem]">{t.name}</dt>
+          <dd class="text-[0.97rem] text-muted leading-relaxed">{t.description}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="mb-10">
+    <h2 class="small-caps mb-4">Experience</h2>
+    {cv.experience.map((job) => (
+      <div class="mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+          <div class="font-serif text-[1.05rem]">
+            {job.title} <span class="text-muted font-sans text-[0.95rem]">— {job.org}</span>
+          </div>
+          <div class="text-xs text-muted shrink-0">
+            {job.period}{job.location && ` · ${job.location}`}
+          </div>
+        </div>
+        {job.summary && <p class="mt-1 text-[0.97rem] text-ink/90 leading-relaxed">{job.summary}</p>}
+        {job.bullets && (
+          <ul class="mt-2 list-disc list-outside pl-5 text-[0.97rem] text-ink/90 space-y-1">
+            {job.bullets.map((b) => <li>{b}</li>)}
+          </ul>
+        )}
+      </div>
+    ))}
+  </section>
+
+  <section class="mb-10">
+    <h2 class="small-caps mb-4">Education</h2>
+    <ul class="space-y-3">
+      {cv.education.map((e) => (
+        <li class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+          <div>
+            <span class="font-serif text-[1.05rem]">{e.degree}</span>
+            <span class="text-muted"> — {e.org}</span>
+          </div>
+          <span class="text-xs text-muted shrink-0">{e.period}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="mb-10">
+    <h2 class="small-caps mb-4">Technical expertise</h2>
+    <dl class="space-y-2">
+      {cv.expertise.map((e) => (
+        <div>
+          <dt class="font-serif text-[1rem] inline">{e.area}:</dt>
+          <dd class="inline text-[0.97rem] text-muted"> {e.items}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="mb-10">
+    <h2 class="small-caps mb-4">Community engagement</h2>
+    <ul class="list-disc list-outside pl-5 text-[0.97rem] text-ink/90 space-y-1">
+      {cv.community.map((c) => <li>{c}</li>)}
+    </ul>
+  </section>
+</Base>

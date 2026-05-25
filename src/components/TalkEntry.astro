@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from "astro:content";
+import FormattedDate from "./FormattedDate.astro";
+
+type Props = { entry: CollectionEntry<"talks"> };
+const { entry } = Astro.props;
+const { title, event, date, location, type, link, summary } = entry.data;
+const typeLabel: Record<string, string> = {
+  talk: "Talk",
+  media: "Media",
+  workshop: "Workshop",
+  panel: "Panel",
+};
+---
+<article class="py-5 border-b border-rule last:border-b-0">
+  <div class="text-xs small-caps mb-1">
+    {typeLabel[type]} · <FormattedDate date={date} format="short" />
+    {location && <span> · {location}</span>}
+  </div>
+  <h3 class="font-serif text-lg leading-snug mb-1">
+    {link ? <a href={link} class="!text-ink hover:!text-accent" target="_blank" rel="noopener">{title}</a> : title}
+  </h3>
+  <p class="text-sm text-muted italic mb-1">{event}</p>
+  <p class="text-[0.97rem] text-ink/90 leading-relaxed">{summary}</p>
+</article>

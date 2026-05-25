@@ -1,0 +1,105 @@
+name: Ruan van der Merwe
+role: MSc (Data Science) · Co-Founder & Head of Science — ByteFuse AI
+location: Cape Town, South Africa
+email: ruan@bytefuse.ai
+
+links:
+  - label: Google Scholar
+    url: https://scholar.google.com/citations?user=IXdm2doAAAAJ&hl=en
+  - label: LinkedIn
+    url: https://www.linkedin.com/in/ruan-van-der-merwe-b87a08111/
+  - label: GitHub
+    url: https://github.com/ruanvdmerwe
+
+profile: >
+  Applied machine learning researcher and AI leader specialising in speech and
+  language systems, with a focus on continual and meta-learning for acoustic
+  modelling. My work addresses catastrophic forgetting in few-shot speech
+  classification, analyses representation geometry to understand and predict
+  downstream task performance, and develops principled evaluation frameworks for
+  real-world speech systems. I bridge theoretical research and production-grade
+  implementation by designing reproducible experimentation pipelines,
+  multilingual benchmarking strategies, and signal-quality diagnostics such as
+  SNR-based filtering. In addition to research, I lead scientific strategy and
+  ML architecture development in an industrial context — guiding research
+  direction, defining experimental standards, mentoring researchers, and
+  translating algorithmic advances into scalable deployed systems.
+
+research_themes:
+  - name: Meta-learning
+    description: >
+      Few-shot adaptation, MAML-family optimisation, and learning-to-learn
+      frameworks for data-efficient systems.
+  - name: Continual learning
+    description: >
+      Stability–plasticity trade-offs, catastrophic forgetting mitigation, and
+      sequential task adaptation.
+  - name: Metric & representation learning
+    description: >
+      Embedding geometry, manifold diagnostics, and principled evaluation of
+      learned representations.
+
+experience:
+  - title: Co-Founder & Head of Science
+    org: ByteFuse AI
+    period: April 2021 — present
+    location: Cape Town (Stellenbosch area)
+    summary: >
+      ByteFuse is an AI R&D company backed by a R55M investment from Novus
+      Holdings, building enterprise-scale AI solutions across education, speech,
+      and analytics.
+    bullets:
+      - "Drive overall AI and scientific strategy for the company: set research direction, define experimental methodology, and establish quality standards across all ML workstreams."
+      - "Lead and mentor a team of researchers and engineers, bridging the gap between academic rigour and production delivery."
+      - "Architect multilingual speech and language evaluation frameworks spanning 30+ languages, including SNR-based dataset filtering and benchmarking pipelines."
+      - "Co-developed Maski, an AI-powered WhatsApp-based tutoring companion built with Maskew Miller Learning, serving 100,000+ South African learners with CAPS-aligned, personalised learning support."
+      - "Own end-to-end ML architecture: from research prototyping through to production deployment with real-time multi-model orchestration and mobile-first constraints."
+
+  - title: Machine Learning Engineer
+    org: Alphawave
+    period: 2020 — 2021
+    location: Stellenbosch
+    summary: >
+      Researched and applied emerging ML and AI trends, particularly in deep
+      learning, while contributing to the incubation of what would become
+      ByteFuse AI.
+
+  - title: Co-Founder & CEO
+    org: MiiPets
+    period: 2019 — 2020
+    location: Cape Town
+    summary: >
+      Founded and led a startup providing comprehensive digital solutions for
+      pet owners. Venture closed due to the COVID-19 pandemic.
+
+  - title: Full Stack Data Scientist
+    org: Vodacom
+    period: 2018 — 2019
+    location: Core Network Performance
+    summary: >
+      Applied data science and machine learning to enhance customer experience
+      across core network performance systems.
+
+education:
+  - degree: MSc, Data Science / Statistics
+    org: University of Cape Town
+    period: 2018 — 2020
+  - degree: BEng, Electronic Engineering
+    org: Stellenbosch University
+    period: 2014 — 2017
+
+expertise:
+  - area: Machine learning
+    items: "Continual learning, meta-learning (MAML, OML), few-shot learning, metric learning, representation learning, self-supervised pretraining."
+  - area: Speech & language
+    items: "Spoken word classification, language identification, acoustic modelling, multilingual speech systems, contextual grounding."
+  - area: Evaluation & diagnostics
+    items: "Manifold analysis (RMQM), intrinsic dimensionality, robustness under distribution shift, SNR-based data filtering, benchmarking pipeline design."
+  - area: Frameworks & tools
+    items: "PyTorch, PyTorch Lightning, Python, experiment tracking, production ML pipelines."
+
+community:
+  - "Speaker & Practical Instructor, Deep Learning Indaba 2022 — Africa's largest gathering of AI practitioners."
+  - "Presenter, Deep Learning IndabaX South Africa — representing ByteFuse AI."
+  - "Media: Featured on CapeTalk discussing Maski and AI in South African education."
+  - "Open source: published code for MAMLCon (Interspeech 2023) and RMQM (ICML 2022 Workshop) on GitHub."

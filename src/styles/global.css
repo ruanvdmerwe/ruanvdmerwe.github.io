@@ -1,0 +1,189 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #fafaf7;
+    --surface: #f3f1ea;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --rule: #e3dfd5;
+    --accent: #b34700;
+    --accent-soft: #d97b3a;
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #0e0e10;
+    --surface: #17171a;
+    --ink: #e8e6df;
+    --muted: #9a9890;
+    --rule: #2a2a2e;
+    --accent: #e8945a;
+    --accent-soft: #b34700;
+  }
+
+  html {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Inter Variable", system-ui, sans-serif;
+    font-feature-settings: "ss01", "cv05", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100dvh;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: "Fraunces Variable", Georgia, serif;
+    font-feature-settings: "ss01", "ss03";
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: var(--muted);
+    text-underline-offset: 0.2em;
+    transition: text-decoration-color 0.15s ease, color 0.15s ease;
+  }
+
+  a:hover {
+    color: var(--accent);
+    text-decoration-style: solid;
+    text-decoration-color: var(--accent);
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 2rem 0;
+  }
+}
+
+@layer components {
+  .small-caps {
+    font-variant: small-caps;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: lowercase;
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+
+  .external::after {
+    content: " \2197";
+    font-size: 0.85em;
+    color: var(--muted);
+  }
+
+  .prose-rvdm {
+    color: var(--ink);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+  .prose-rvdm > * + * {
+    margin-top: 1.1em;
+  }
+  .prose-rvdm h2 {
+    font-size: 1.6rem;
+    margin-top: 2.4em;
+    margin-bottom: 0.4em;
+  }
+  .prose-rvdm h3 {
+    font-size: 1.25rem;
+    margin-top: 1.8em;
+    margin-bottom: 0.3em;
+  }
+  .prose-rvdm a {
+    color: var(--accent);
+    text-decoration-color: var(--accent-soft);
+  }
+  .prose-rvdm strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .prose-rvdm blockquote {
+    border-left: 2px solid var(--accent);
+    padding-left: 1rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .prose-rvdm code {
+    font-family: "JetBrains Mono Variable", ui-monospace, monospace;
+    font-size: 0.92em;
+    background: var(--surface);
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+  }
+  .prose-rvdm pre {
+    background: var(--surface);
+    padding: 1rem 1.1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .prose-rvdm pre code {
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+  }
+  .prose-rvdm ul,
+  .prose-rvdm ol {
+    padding-left: 1.4rem;
+  }
+  .prose-rvdm ul li {
+    list-style: disc;
+  }
+  .prose-rvdm ol li {
+    list-style: decimal;
+  }
+  .prose-rvdm img {
+    border-radius: 8px;
+    border: 1px solid var(--rule);
+    margin: 1.5em auto;
+  }
+  .prose-rvdm figure figcaption {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0.5em;
+  }
+  .prose-rvdm table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    font-size: 0.95rem;
+  }
+  .prose-rvdm th,
+  .prose-rvdm td {
+    border-bottom: 1px solid var(--rule);
+    padding: 0.55em 0.6em;
+    text-align: left;
+  }
+
+  html.shiki-dark .astro-code,
+  html.shiki-dark .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

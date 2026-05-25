@@ -1,0 +1,112 @@
+---
+import Base from "~/layouts/Base.astro";
+import { getCollection } from "astro:content";
+import { SITE, SOCIAL } from "~/consts";
+import FormattedDate from "~/components/FormattedDate.astro";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 3);
+
+const papers = (await getCollection("papers"))
+  .filter((p) => p.data.selected)
+  .sort((a, b) => b.data.year - a.data.year);
+
+const projects = (await getCollection("projects"))
+  .filter((p) => p.data.selected)
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+---
+<Base>
+  <section class="mb-14">
+    <p class="small-caps mb-3">{SITE.role}</p>
+    <h1 class="font-serif text-[2.4rem] sm:text-[3rem] leading-[1.05] tracking-tight mb-6">
+      {SITE.title}
+    </h1>
+    <div class="prose-rvdm max-w-reading">
+      <p>
+        I&rsquo;m an applied machine learning researcher and AI leader based in {SITE.location.split(",")[0]},
+        working on speech and language systems with a focus on
+        <em>continual</em> and <em>meta-learning</em> for acoustic modelling. My research
+        addresses catastrophic forgetting in few-shot speech classification, analyses
+        representation geometry to predict downstream task performance, and develops
+        principled evaluation frameworks for real-world speech systems.
+      </p>
+      <p>
+        I co-founded <a href={SOCIAL.bytefuse} target="_blank" rel="noopener">ByteFuse AI</a>,
+        where I lead scientific strategy and ML architecture &mdash; guiding research direction,
+        mentoring researchers, and translating algorithmic advances into scalable deployed
+        systems across education, speech, and analytics.
+      </p>
+      <p class="text-muted text-[0.95rem]">
+        Find me on
+        <a href={SOCIAL.scholar} target="_blank" rel="noopener" class="external">Google Scholar</a>,
+        <a href={SOCIAL.github} target="_blank" rel="noopener" class="external">GitHub</a>,
+        <a href={SOCIAL.linkedin} target="_blank" rel="noopener" class="external">LinkedIn</a>,
+        or by <a href={SOCIAL.email}>email</a>.
+      </p>
+    </div>
+  </section>
+
+  {posts.length > 0 && (
+    <section class="mb-14">
+      <div class="flex items-baseline justify-between mb-5">
+        <h2 class="font-serif text-2xl tracking-tight">Recent writing</h2>
+        <a href="/writing" class="text-sm small-caps !no-underline hover:!text-accent">all posts →</a>
+      </div>
+      <ul class="divide-y divide-rule">
+        {posts.map((post) => (
+          <li class="py-3">
+            <a href={`/writing/${post.id}`} class="!no-underline flex items-baseline justify-between gap-4 group">
+              <span class="font-serif text-[1.05rem] group-hover:text-accent">{post.data.title}</span>
+              <span class="text-xs text-muted shrink-0"><FormattedDate date={post.data.pubDate} format="short" /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {papers.length > 0 && (
+    <section class="mb-14">
+      <div class="flex items-baseline justify-between mb-5">
+        <h2 class="font-serif text-2xl tracking-tight">Selected papers</h2>
+        <a href="/papers" class="text-sm small-caps !no-underline hover:!text-accent">all papers →</a>
+      </div>
+      <ul class="divide-y divide-rule">
+        {papers.map((p) => (
+          <li class="py-3">
+            <div class="flex items-baseline justify-between gap-4">
+              <div>
+                <div class="font-serif text-[1.05rem] leading-snug">{p.data.title}</div>
+                <div class="text-xs text-muted mt-0.5">{p.data.venue}</div>
+              </div>
+              <span class="text-xs text-muted shrink-0">{p.data.year}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {projects.length > 0 && (
+    <section class="mb-14">
+      <div class="flex items-baseline justify-between mb-5">
+        <h2 class="font-serif text-2xl tracking-tight">Selected projects</h2>
+        <a href="/projects" class="text-sm small-caps !no-underline hover:!text-accent">all projects →</a>
+      </div>
+      <ul class="divide-y divide-rule">
+        {projects.map((p) => (
+          <li class="py-3">
+            <div class="flex items-baseline justify-between gap-4">
+              <div>
+                <div class="font-serif text-[1.05rem] leading-snug">{p.data.title}</div>
+                <div class="text-xs text-muted mt-0.5">{p.data.summary}</div>
+              </div>
+              {p.data.period && <span class="text-xs text-muted shrink-0">{p.data.period}</span>}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>

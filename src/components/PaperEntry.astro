@@ -1,0 +1,68 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { render } from "astro:content";
+
+type Props = { entry: CollectionEntry<"papers">; expanded?: boolean };
+const { entry, expanded = false } = Astro.props;
+const { Content } = await render(entry);
+const { title, authors, venue, year, pdf, code, project, arxiv, doi, bibtex, type } = entry.data;
+
+const venueLabel = (() => {
+  const map: Record<string, string> = {
+    conference: "Conference",
+    workshop: "Workshop",
+    journal: "Journal",
+    preprint: "Preprint",
+  };
+  return map[type] ?? "";
+})();
+
+const bibtexId = `bib-${entry.id}`;
+---
+<article class="py-7 border-b border-rule last:border-b-0">
+  <div class="text-xs small-caps mb-2">{venueLabel} · {year}</div>
+  <h3 class="font-serif text-xl leading-snug mb-2">{title}</h3>
+  <p class="text-[0.95rem] text-muted mb-3">
+    {authors.join(", ")}<br />
+    <em class="not-italic text-ink/80">{venue}</em>
+  </p>
+
+  <div class="prose-rvdm text-[0.97rem]">
+    <Content />
+  </div>
+
+  <div class="mt-4 flex flex-wrap gap-x-3 gap-y-2 text-sm">
+    {pdf && <a href={pdf} class="!text-accent" target="_blank" rel="noopener">PDF</a>}
+    {arxiv && <a href={arxiv} class="!text-accent" target="_blank" rel="noopener">arXiv</a>}
+    {doi && <a href={doi} class="!text-accent" target="_blank" rel="noopener">DOI</a>}
+    {code && <a href={code} class="!text-accent" target="_blank" rel="noopener">Code</a>}
+    {project && <a href={project} class="!text-accent" target="_blank" rel="noopener">Project</a>}
+    {bibtex && (
+      <button
+        type="button"
+        class="bibtex-toggle !text-accent underline decoration-dotted"
+        data-target={bibtexId}
+      >
+        BibTeX
+      </button>
+    )}
+  </div>
+
+  {bibtex && (
+    <pre
+      id={bibtexId}
+      class="hidden mt-3 text-xs font-mono whitespace-pre-wrap bg-surface border border-rule rounded p-3 leading-snug"
+    >{bibtex}</pre>
+  )}
+</article>
+
+<script>
+  document.querySelectorAll(".bibtex-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = (btn as HTMLElement).dataset.target;
+      if (!id) return;
+      const el = document.getElementById(id);
+      el?.classList.toggle("hidden");
+    });
+  });
+</script>

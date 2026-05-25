@@ -1,0 +1,26 @@
+---
+import Base from "~/layouts/Base.astro";
+import { getCollection } from "astro:content";
+import PaperEntry from "~/components/PaperEntry.astro";
+
+const papers = (await getCollection("papers")).sort((a, b) => {
+  if (b.data.year !== a.data.year) return b.data.year - a.data.year;
+  return (a.data.order ?? 99) - (b.data.order ?? 99);
+});
+---
+<Base
+  title="Papers"
+  description="Peer-reviewed publications on meta-learning, continual learning, representation geometry, and speech systems."
+>
+  <header class="mb-10">
+    <h1 class="font-serif text-[2.2rem] sm:text-[2.6rem] tracking-tight mb-3">Papers</h1>
+    <p class="text-muted leading-relaxed max-w-reading">
+      Peer-reviewed and workshop publications. Full list on
+      <a href="https://scholar.google.com/citations?user=IXdm2doAAAAJ&hl=en" target="_blank" rel="noopener" class="external">Google Scholar</a>.
+    </p>
+  </header>
+
+  <div>
+    {papers.map((entry) => <PaperEntry entry={entry} />)}
+  </div>
+</Base>

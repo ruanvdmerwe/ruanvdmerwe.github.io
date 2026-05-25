@@ -1,0 +1,41 @@
+@media print {
+  :root {
+    --bg: #ffffff;
+    --ink: #000000;
+    --muted: #444444;
+    --rule: #cccccc;
+    --accent: #000000;
+    --accent-soft: #000000;
+  }
+
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 10.5pt;
+  }
+
+  main {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  a {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+
+  section {
+    page-break-inside: avoid;
+  }
+}

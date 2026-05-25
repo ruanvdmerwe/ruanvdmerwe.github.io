@@ -1,0 +1,25 @@
+---
+import Base from "~/layouts/Base.astro";
+import { getCollection } from "astro:content";
+import ProjectCard from "~/components/ProjectCard.astro";
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99),
+);
+---
+<Base
+  title="Projects"
+  description="Selected research and product work: ByteFuse, Maski, MAMLCon, RMQM, and more."
+>
+  <header class="mb-10">
+    <h1 class="font-serif text-[2.2rem] sm:text-[2.6rem] tracking-tight mb-3">Projects</h1>
+    <p class="text-muted leading-relaxed max-w-reading">
+      Selected research and product work, from open-source releases that accompany
+      published papers to shipped products serving real users.
+    </p>
+  </header>
+
+  <div>
+    {projects.map((entry) => <ProjectCard entry={entry} />)}
+  </div>
+</Base>

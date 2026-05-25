@@ -1,0 +1,35 @@
+---
+// Theme toggle: respects system preference, persists choice in localStorage,
+// applies before paint via the inline script in Base.astro to avoid FOUC.
+---
+<button
+  id="theme-toggle"
+  type="button"
+  aria-label="Toggle color theme"
+  class="text-muted hover:text-accent transition-colors p-1 -mr-1"
+>
+  <svg class="theme-icon-light w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+  </svg>
+  <svg class="theme-icon-dark w-4 h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+</button>
+
+<script>
+  const btn = document.getElementById("theme-toggle");
+  const root = document.documentElement;
+  const sync = () => {
+    const isDark = root.getAttribute("data-theme") === "dark";
+    document.querySelector(".theme-icon-light")?.classList.toggle("hidden", !isDark);
+    document.querySelector(".theme-icon-dark")?.classList.toggle("hidden", isDark);
+  };
+  sync();
+  btn?.addEventListener("click", () => {
+    const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("theme", next); } catch {}
+    sync();
+  });
+</script>
