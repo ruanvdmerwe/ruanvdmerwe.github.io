@@ -4,7 +4,7 @@ export const SITE = {
     "Applied machine learning researcher and AI leader working on meta-learning, continual learning, and speech systems. Co-founder and Head of Science at ByteFuse AI.",
   author: "Ruan van der Merwe",
   url: "https://ruanvdmerwe.github.io",
-  email: "ruan@bytefuse.ai",
+  email: "ruan [at] bytefuse [dot] ai",
   location: "Cape Town, South Africa",
   role: "Co-Founder & Head of Science — ByteFuse AI",
 };
@@ -24,5 +24,4 @@ export const SOCIAL = {
   linkedin: "https://www.linkedin.com/in/ruan-van-der-merwe-b87a08111/",
   github: "https://github.com/ruanvdmerwe",
   bytefuse: "https://bytefuse.ai",
-  email: "mailto:ruan@bytefuse.ai",
 };
