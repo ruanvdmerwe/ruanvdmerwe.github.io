@@ -13,8 +13,5 @@ links:
 I co-founded ByteFuse and lead its overall AI and scientific strategy: setting
 research direction, defining experimental methodology, and establishing quality
 standards across every ML workstream. Day to day this means mentoring researchers
-and engineers, architecting multilingual speech and language evaluation frameworks
-across 30+ languages (including SNR-based dataset filtering and benchmarking
-pipelines), and owning end-to-end ML architecture from research prototype to
-production deployment with real-time multi-model orchestration and mobile-first
-constraints.
+and engineers, architecting multilingual speech models, and owning ML from research prototype
+to production deployment with real-time multi-model orchestration and mobile-first constraints.
