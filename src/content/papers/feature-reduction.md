@@ -1,8 +1,8 @@
 ---
 title: "The Effect of Feature Resolution on Embedding Dimension"
 authors:
-  - "Ruan van der Merwe"
   - "Louise Beyers"
+  - "Ruan van der Merwe"
 venue: "ICLR 2026 Blog Track"
 year: 2026
 type: blog
