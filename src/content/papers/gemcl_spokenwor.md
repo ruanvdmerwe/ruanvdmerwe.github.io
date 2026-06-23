@@ -4,23 +4,20 @@ authors:
   - "Louise Beyers"
   - "Batsirayi Mupamhi Ziki"
   - "Ruan van der Merwe"
-venue: "arXiv preprint arXiv:2605.13075"
+venue: "Interspeech 2026"
 year: 2026
-type: preprint
+type: conference
 selected: true
 order: 1
 arxiv: "https://arxiv.org/abs/2605.13075"
 bibtex: |
-  @article{beyers2026gemcl,
-    title         = {Scaling Few-Shot Spoken Word Classification With
-                     Generative Meta-Continual Learning},
-    author        = {Beyers, Louise and Ziki, Batsirayi Mupamhi and
-                     van der Merwe, Ruan},
-    journal       = {arXiv preprint arXiv:2605.13075},
-    year          = {2026},
-    eprint        = {2605.13075},
-    archivePrefix = {arXiv},
-    primaryClass  = {cs.CL},
+  @inproceedings{beyers2026gemcl,
+    title     = {Scaling Few-Shot Spoken Word Classification With
+                 Generative Meta-Continual Learning},
+    author    = {Beyers, Louise and Ziki, Batsirayi Mupamhi and
+                 van der Merwe, Ruan},
+    booktitle = {Interspeech},
+    year      = {2026},
   }
 ---
 

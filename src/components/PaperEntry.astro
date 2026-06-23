@@ -5,7 +5,7 @@ import { render } from "astro:content";
 type Props = { entry: CollectionEntry<"papers">; expanded?: boolean };
 const { entry, expanded = false } = Astro.props;
 const { Content } = await render(entry);
-const { title, authors, venue, year, pdf, code, project, arxiv, doi, bibtex, type } = entry.data;
+const { title, authors, venue, year, pdf, url, code, project, arxiv, doi, bibtex, type } = entry.data;
 
 const venueLabel = (() => {
   const map: Record<string, string> = {
@@ -13,6 +13,7 @@ const venueLabel = (() => {
     workshop: "Workshop",
     journal: "Journal",
     preprint: "Preprint",
+    blog: "Blog Track",
   };
   return map[type] ?? "";
 })();
@@ -33,6 +34,7 @@ const bibtexId = `bib-${entry.id}`;
 
   <div class="mt-4 flex flex-wrap gap-x-3 gap-y-2 text-sm">
     {pdf && <a href={pdf} class="!text-accent" target="_blank" rel="noopener">PDF</a>}
+    {url && <a href={url} class="!text-accent" target="_blank" rel="noopener">Read</a>}
     {arxiv && <a href={arxiv} class="!text-accent" target="_blank" rel="noopener">arXiv</a>}
     {doi && <a href={doi} class="!text-accent" target="_blank" rel="noopener">DOI</a>}
     {code && <a href={code} class="!text-accent" target="_blank" rel="noopener">Code</a>}
