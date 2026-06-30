@@ -68,4 +68,19 @@ const talks = defineCollection({
   }),
 });
 
-export const collections = { blog, papers, projects, talks };
+const supervision = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/supervision" }),
+  schema: z.object({
+    student: z.string(),
+    title: z.string(),
+    degree: z.enum(["PhD", "MSc", "Honours", "BSc", "Internship"]),
+    role: z.enum(["supervisor", "co-supervisor"]),
+    institution: z.string().optional(),
+    status: z.enum(["ongoing", "completed"]),
+    year: z.number().int(),
+    summary: z.string().optional(),
+    order: z.number().optional(),
+  }),
+});
+
+export const collections = { blog, papers, projects, talks, supervision };

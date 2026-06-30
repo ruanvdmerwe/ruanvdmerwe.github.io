@@ -1,0 +1,29 @@
+---
+import Base from "~/layouts/Base.astro";
+import { getCollection } from "astro:content";
+import SupervisionEntry from "~/components/SupervisionEntry.astro";
+
+const statusRank = (s: string) => (s === "ongoing" ? 0 : 1);
+const supervision = (await getCollection("supervision")).sort((a, b) => {
+  const byStatus = statusRank(a.data.status) - statusRank(b.data.status);
+  if (byStatus !== 0) return byStatus;
+  if (b.data.year !== a.data.year) return b.data.year - a.data.year;
+  return (a.data.order ?? 99) - (b.data.order ?? 99);
+});
+---
+<Base
+  title="Supervision"
+  description="Students I have supervised and co-supervised across postgraduate research and internships."
+>
+  <header class="mb-10">
+    <h1 class="font-serif text-[2.2rem] sm:text-[2.6rem] tracking-tight mb-3">Supervision</h1>
+    <p class="text-muted leading-relaxed max-w-reading">
+      Postgraduate students and interns I have supervised or co-supervised &mdash; spanning
+      speech, meta-learning, and applied ML research.
+    </p>
+  </header>
+
+  <div>
+    {supervision.map((entry) => <SupervisionEntry entry={entry} />)}
+  </div>
+</Base>

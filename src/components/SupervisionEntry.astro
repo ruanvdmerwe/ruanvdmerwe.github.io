@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type Props = { entry: CollectionEntry<"supervision"> };
+const { entry } = Astro.props;
+const { student, title, degree, role, institution, status, year, summary } =
+  entry.data;
+const roleLabel: Record<string, string> = {
+  supervisor: "Supervisor",
+  "co-supervisor": "Co-supervisor",
+};
+const statusLabel = status === "ongoing" ? `Ongoing · since ${year}` : `Completed ${year}`;
+---
+<article class="py-5 border-b border-rule last:border-b-0">
+  <div class="text-xs small-caps mb-1">
+    {degree} · {roleLabel[role]} · {statusLabel}
+    {institution && <span> · {institution}</span>}
+  </div>
+  <h3 class="font-serif text-lg leading-snug mb-1">{title}</h3>
+  <p class="text-sm text-muted italic mb-1">{student}</p>
+  {summary && <p class="text-[0.97rem] text-ink/90 leading-relaxed">{summary}</p>}
+</article>

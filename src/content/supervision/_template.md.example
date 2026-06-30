@@ -1,0 +1,11 @@
+---
+student: "Full Name"
+title: "Thesis or project title"
+degree: MSc            # PhD | MSc | Honours | BSc | Internship
+role: co-supervisor    # supervisor | co-supervisor
+institution: "Stellenbosch University"
+status: ongoing        # ongoing | completed
+year: 2025             # start year if ongoing, completion year if completed
+summary: "One or two sentences on the research focus and contribution."
+order: 1               # optional, breaks ties within the same year
+---
