@@ -83,4 +83,29 @@ const supervision = defineCollection({
   }),
 });
 
-export const collections = { blog, papers, projects, talks, supervision };
+const shows = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/shows" }),
+  schema: ({ image }) =>
+    z.object({
+    title: z.string(),
+    venue: z.string(),
+    date: z.coerce.date(),
+    time: z.string().optional(),
+    location: z.string().optional(),
+    type: z.enum(["open-mic", "showcase", "headline", "festival", "competition", "podcast"]),
+    link: z.string().url().optional(),
+    tickets: z.string().url().optional(),
+    summary: z.string().optional(),
+    // Photos from the night. Each is a path relative to the .md file
+    // (e.g. "./images/photo.jpg") or { src, alt }. Astro optimises them at
+    // build time. The first one doubles as the poster for a local video.
+    images: z
+      .array(z.union([image(), z.object({ src: image(), alt: z.string() })]))
+      .default([]),
+    // YouTube / Vimeo URL (embedded) or a path under public/ to an .mp4/.webm
+    // (played with the native player).
+    video: z.string().optional(),
+  }),
+});
+
+export const collections = { blog, papers, projects, talks, supervision, shows };

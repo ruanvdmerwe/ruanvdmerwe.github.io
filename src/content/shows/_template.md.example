@@ -1,0 +1,16 @@
+---
+title: "Name of the show or the set"
+venue: "Venue name"
+date: 2026-10-15              # show date; future dates appear under "Upcoming"
+time: "20:00"                 # optional
+location: "Cape Town"         # optional
+type: open-mic                # open-mic | showcase | headline | festival | competition | podcast
+link: "https://example.com"   # optional — event page or a clip of the set
+tickets: "https://example.com/tickets"   # optional — shown as a "tickets" link for upcoming shows
+summary: "Optional one-liner about the show or the set."
+images:                       # optional — photos under src/content/shows/images/, optimised at build
+  - "./images/my-show-1.jpg"
+  - src: "./images/my-show-2.jpg"
+    alt: "Describe the photo"  # alt text is optional; a default is generated
+video: "https://www.youtube.com/watch?v=XXXXXXXXXXX"  # optional — YouTube/Vimeo URL, or "/shows/my-set.mp4" under public/
+---

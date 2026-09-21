@@ -17,7 +17,7 @@ const isActive = (href: string) => {
       <span class="hidden xs:inline">{SITE.title}</span>
       <span class="xs:hidden">Ruan vdM</span>
     </a>
-    <nav class="flex items-center gap-x-3 sm:gap-x-5 text-sm">
+    <nav class="flex flex-wrap items-center justify-end gap-x-3 gap-y-1 sm:gap-x-5 text-sm">
       {
         NAV.filter((item) => item.href !== "/").map((item) => (
           <a

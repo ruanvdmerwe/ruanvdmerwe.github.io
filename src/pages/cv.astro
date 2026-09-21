@@ -23,6 +23,7 @@ type CV = {
   education: { degree: string; org: string; period: string }[];
   expertise: { area: string; items: string }[];
   community: string[];
+  beyond?: string[];
 };
 
 const file = path.resolve("./src/data/cv.yaml");
@@ -121,4 +122,13 @@ const cv = yaml.load(fs.readFileSync(file, "utf-8")) as CV;
       {cv.community.map((c) => <li>{c}</li>)}
     </ul>
   </section>
+
+  {cv.beyond && cv.beyond.length > 0 && (
+    <section class="mb-10">
+      <h2 class="small-caps mb-4">Beyond research</h2>
+      <ul class="list-disc list-outside pl-5 text-[0.97rem] text-ink/90 space-y-1">
+        {cv.beyond.map((b) => <li>{b}</li>)}
+      </ul>
+    </section>
+  )}
 </Base>
