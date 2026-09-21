@@ -1,7 +1,7 @@
 export const SITE = {
   title: "Ruan van der Merwe",
   description:
-    "Applied machine learning researcher, AI leader, and stand-up comedian. Co-founder and Head of Science at ByteFuse AI, working on meta-learning, continual learning, and speech systems — and telling jokes about it on stage.",
+    "Applied machine learning researcher, AI leader, and stand-up comedian. Co-founder and Head of Science at ByteFuse AI, working on meta-learning, continual learning, and speech systems — and turning everyday awkward moments into comedy on stage.",
   author: "Ruan van der Merwe",
   url: "https://ruanvdmerwe.github.io",
   email: "ruan [at] bytefuse [dot] ai",
