@@ -137,8 +137,24 @@ type: open-mic            # open-mic | showcase | headline | festival | competit
 link: "https://..."       # optional — event page or a clip of the set
 tickets: "https://..."    # optional — shown as a "tickets" link for upcoming shows
 summary: "Optional one-liner about the show."
+images:                       # optional — see below
+  - "./images/photo-1.jpg"
+  - src: "./images/photo-2.jpg"
+    alt: "On stage"
+video: "https://www.youtube.com/watch?v=..."   # optional — see below
 ---
 ```
+
+Media on a show:
+
+- `images` is a list of paths relative to the Markdown file (put the files in
+  `src/content/shows/images/`). Each can be a plain path or `{ src, alt }`.
+  Astro resizes and converts them to WebP at build time; one photo renders full
+  width, more than one becomes a grid.
+- `video` accepts a YouTube or Vimeo page URL, which is embedded, or a path to
+  an `.mp4`/`.webm` under `public/` (e.g. `/shows/my-set.mp4`), which plays in
+  the native player using the first image as the poster. Prefer YouTube/Vimeo
+  for anything larger than a few MB — GitHub Pages has no video CDN.
 
 Set `SOCIAL.instagram` in `src/consts.ts` to show a follow link on the comedy page.
 

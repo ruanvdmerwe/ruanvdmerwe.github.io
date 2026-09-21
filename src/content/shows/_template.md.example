@@ -8,4 +8,9 @@ type: open-mic                # open-mic | showcase | headline | festival | comp
 link: "https://example.com"   # optional — event page or a clip of the set
 tickets: "https://example.com/tickets"   # optional — shown as a "tickets" link for upcoming shows
 summary: "Optional one-liner about the show or the set."
+images:                       # optional — photos under src/content/shows/images/, optimised at build
+  - "./images/my-show-1.jpg"
+  - src: "./images/my-show-2.jpg"
+    alt: "Describe the photo"  # alt text is optional; a default is generated
+video: "https://www.youtube.com/watch?v=XXXXXXXXXXX"  # optional — YouTube/Vimeo URL, or "/shows/my-set.mp4" under public/
 ---

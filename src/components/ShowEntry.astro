@@ -1,10 +1,19 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { Image, getImage } from "astro:assets";
 import FormattedDate from "./FormattedDate.astro";
 
 type Props = { entry: CollectionEntry<"shows">; upcoming?: boolean };
 const { entry, upcoming = false } = Astro.props;
-const { title, venue, date, time, location, type, link, tickets, summary } = entry.data;
+const { title, venue, date, time, location, type, link, tickets, summary, images, video } =
+  entry.data;
+
+// Normalise gallery entries to { src, alt }.
+const photos = images.map((img, i) =>
+  "src" in img && "alt" in img
+    ? img
+    : { src: img as Exclude<typeof img, { src: unknown; alt: string }>, alt: `${title} at ${venue} — photo ${i + 1}` },
+);
 const typeLabel: Record<string, string> = {
   "open-mic": "Open mic",
   showcase: "Showcase",
@@ -13,6 +22,25 @@ const typeLabel: Record<string, string> = {
   competition: "Competition",
   podcast: "Podcast",
 };
+
+// Turn a YouTube or Vimeo page URL into an embeddable one; anything else is
+// treated as a direct video file.
+function embedUrl(url: string): string | null {
+  const yt = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/,
+  );
+  if (yt) return `https://www.youtube-nocookie.com/embed/${yt[1]}`;
+  const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (vimeo) return `https://player.vimeo.com/video/${vimeo[1]}`;
+  return null;
+}
+const embed = video ? embedUrl(video) : null;
+const poster =
+  photos.length > 0 && video && !embed
+    ? (await getImage({ src: photos[0].src, width: 1200, format: "webp", quality: 80 })).src
+    : undefined;
+const gridClass =
+  photos.length === 1 ? "" : photos.length === 2 ? "grid grid-cols-2 gap-2" : "grid grid-cols-2 sm:grid-cols-3 gap-2";
 ---
 <article class="py-5 border-b border-rule last:border-b-0">
   <div class="text-xs small-caps mb-1">
@@ -27,5 +55,49 @@ const typeLabel: Record<string, string> = {
   {summary && <p class="text-[0.97rem] text-ink/90 leading-relaxed">{summary}</p>}
   {upcoming && tickets && (
     <a href={tickets} class="inline-block mt-2 text-sm small-caps !no-underline hover:!text-accent" target="_blank" rel="noopener">tickets →</a>
+  )}
+
+  {photos.length > 0 && (
+    <div class:list={["mt-4 max-w-reading", gridClass]}>
+      {photos.map((p) => (
+        <Image
+          src={p.src}
+          alt={p.alt}
+          widths={[360, 720, 1200]}
+          sizes={photos.length === 1 ? "(min-width: 768px) 720px, 100vw" : "(min-width: 640px) 240px, 50vw"}
+          format="webp"
+          quality={80}
+          loading="lazy"
+          class:list={[
+            "w-full rounded-lg border border-rule object-cover",
+            photos.length > 1 && "aspect-[4/5]",
+          ]}
+        />
+      ))}
+    </div>
+  )}
+
+  {video && embed && (
+    <div class="mt-4 max-w-reading aspect-video rounded-lg overflow-hidden border border-rule bg-surface">
+      <iframe
+        src={embed}
+        title={`${title} — video`}
+        class="w-full h-full"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    </div>
+  )}
+
+  {video && !embed && (
+    <video
+      src={video}
+      poster={poster}
+      controls
+      preload="metadata"
+      playsinline
+      class="mt-4 w-full max-w-reading rounded-lg border border-rule bg-surface"
+    ></video>
   )}
 </article>
