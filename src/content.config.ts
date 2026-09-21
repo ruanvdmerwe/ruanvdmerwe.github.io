@@ -83,4 +83,19 @@ const supervision = defineCollection({
   }),
 });
 
-export const collections = { blog, papers, projects, talks, supervision };
+const shows = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/shows" }),
+  schema: z.object({
+    title: z.string(),
+    venue: z.string(),
+    date: z.coerce.date(),
+    time: z.string().optional(),
+    location: z.string().optional(),
+    type: z.enum(["open-mic", "showcase", "headline", "festival", "competition", "podcast"]),
+    link: z.string().url().optional(),
+    tickets: z.string().url().optional(),
+    summary: z.string().optional(),
+  }),
+});
+
+export const collections = { blog, papers, projects, talks, supervision, shows };

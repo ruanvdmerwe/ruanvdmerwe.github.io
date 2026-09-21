@@ -17,6 +17,13 @@ const papers = (await getCollection("papers"))
 const projects = (await getCollection("projects"))
   .filter((p) => p.data.selected)
   .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const shows = (await getCollection("shows"))
+  .filter((s) => s.data.date.getTime() >= today.getTime())
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime())
+  .slice(0, 3);
 ---
 <Base>
   <section class="mb-14">
@@ -57,6 +64,11 @@ const projects = (await getCollection("projects"))
         mentoring researchers, and translating algorithmic advances into scalable deployed
         systems across education, speech, and analytics.
       </p>
+      <p>
+        I&rsquo;m also a stand-up comedian. When I&rsquo;m not training models I&rsquo;m on
+        stage in Cape Town, turning startup life, AI hype, and being an engineer into material.
+        <a href="/comedy">Shows and dates are here</a>.
+      </p>
       <p class="text-muted text-[0.95rem]">
         Find me on
         <a href={SOCIAL.scholar} target="_blank" rel="noopener" class="external">Google Scholar</a>,
@@ -80,6 +92,32 @@ const projects = (await getCollection("projects"))
               <span class="font-serif text-[1.05rem] group-hover:text-accent">{post.data.title}</span>
               <span class="text-xs text-muted shrink-0"><FormattedDate date={post.data.pubDate} format="short" /></span>
             </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {shows.length > 0 && (
+    <section class="mb-14">
+      <div class="flex items-baseline justify-between mb-5">
+        <h2 class="font-serif text-2xl tracking-tight">Upcoming shows</h2>
+        <a href="/comedy" class="text-sm small-caps !no-underline hover:!text-accent">all shows →</a>
+      </div>
+      <ul class="divide-y divide-rule">
+        {shows.map((s) => (
+          <li class="py-3">
+            <div class="flex items-baseline justify-between gap-4">
+              <div>
+                <div class="font-serif text-[1.05rem] leading-snug">
+                  {s.data.link ? <a href={s.data.link} class="!no-underline hover:text-accent" target="_blank" rel="noopener">{s.data.title}</a> : s.data.title}
+                </div>
+                <div class="text-xs text-muted mt-0.5">
+                  {s.data.venue}{s.data.location && ` · ${s.data.location}`}{s.data.time && ` · ${s.data.time}`}
+                </div>
+              </div>
+              <span class="text-xs text-muted shrink-0"><FormattedDate date={s.data.date} format="long" /></span>
+            </div>
           </li>
         ))}
       </ul>

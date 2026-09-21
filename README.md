@@ -121,6 +121,27 @@ summary: "What you talked about, in one or two sentences."
 ---
 ```
 
+### Comedy show
+
+Create `src/content/shows/<slug>.md`. Future-dated shows appear under
+"Upcoming shows" on `/comedy` and the home page; past ones move to "Past shows".
+
+```md
+---
+title: "Name of the show or the set"
+venue: "Venue name"
+date: 2026-10-15
+time: "20:00"             # optional
+location: "Cape Town"     # optional
+type: open-mic            # open-mic | showcase | headline | festival | competition | podcast
+link: "https://..."       # optional — event page or a clip of the set
+tickets: "https://..."    # optional — shown as a "tickets" link for upcoming shows
+summary: "Optional one-liner about the show."
+---
+```
+
+Set `SOCIAL.instagram` in `src/consts.ts` to show a follow link on the comedy page.
+
 ### Updating the CV
 
 Edit `src/data/cv.yaml`. The `/cv` page reads it at build time. The page has a
@@ -142,6 +163,8 @@ two-column resume.
 - `/papers` &mdash; all publications with PDF / arXiv / code / BibTeX
 - `/projects` &mdash; project list
 - `/talks` &mdash; talks & media timeline
+- `/supervision` &mdash; students supervised and co-supervised
+- `/comedy` &mdash; stand-up: upcoming and past shows
 - `/cv` &mdash; long-form CV with print-friendly layout
 - `/rss.xml` &mdash; RSS feed for blog posts
 - `/sitemap-index.xml` &mdash; auto-generated sitemap

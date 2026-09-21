@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from "astro:content";
+import FormattedDate from "./FormattedDate.astro";
+
+type Props = { entry: CollectionEntry<"shows">; upcoming?: boolean };
+const { entry, upcoming = false } = Astro.props;
+const { title, venue, date, time, location, type, link, tickets, summary } = entry.data;
+const typeLabel: Record<string, string> = {
+  "open-mic": "Open mic",
+  showcase: "Showcase",
+  headline: "Headline",
+  festival: "Festival",
+  competition: "Competition",
+  podcast: "Podcast",
+};
+---
+<article class="py-5 border-b border-rule last:border-b-0">
+  <div class="text-xs small-caps mb-1">
+    {typeLabel[type]} · <FormattedDate date={date} format="long" />
+    {time && <span> · {time}</span>}
+    {location && <span> · {location}</span>}
+  </div>
+  <h3 class="font-serif text-lg leading-snug mb-1">
+    {link ? <a href={link} class="!text-ink hover:!text-accent" target="_blank" rel="noopener">{title}</a> : title}
+  </h3>
+  <p class="text-sm text-muted italic mb-1">{venue}</p>
+  {summary && <p class="text-[0.97rem] text-ink/90 leading-relaxed">{summary}</p>}
+  {upcoming && tickets && (
+    <a href={tickets} class="inline-block mt-2 text-sm small-caps !no-underline hover:!text-accent" target="_blank" rel="noopener">tickets →</a>
+  )}
+</article>

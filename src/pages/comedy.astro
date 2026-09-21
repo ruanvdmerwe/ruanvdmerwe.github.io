@@ -1,0 +1,52 @@
+---
+import Base from "~/layouts/Base.astro";
+import { getCollection } from "astro:content";
+import ShowEntry from "~/components/ShowEntry.astro";
+import { SOCIAL } from "~/consts";
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const shows = await getCollection("shows");
+const upcoming = shows
+  .filter((s) => s.data.date.getTime() >= today.getTime())
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const past = shows
+  .filter((s) => s.data.date.getTime() < today.getTime())
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+<Base
+  title="Comedy"
+  description="Stand-up comedy: upcoming shows, past sets, and where to catch me on stage."
+>
+  <header class="mb-10">
+    <h1 class="font-serif text-[2.2rem] sm:text-[2.6rem] tracking-tight mb-3">Comedy</h1>
+    <div class="prose-rvdm max-w-reading text-muted">
+      <p>
+        Alongside the research and the company, I do stand-up. Mostly Cape Town rooms,
+        mostly true stories &mdash; about building AI, running a startup, and the general
+        experience of being a South African engineer who chose to explain himself to strangers
+        with a microphone.
+      </p>
+      <p>
+        If you run a room and want me on a lineup, get in touch{SOCIAL.instagram ? <> or find me on <a href={SOCIAL.instagram} target="_blank" rel="noopener" class="external">Instagram</a></> : null}.
+      </p>
+    </div>
+  </header>
+
+  <section class="mb-14">
+    <h2 class="font-serif text-2xl tracking-tight mb-5">Upcoming shows</h2>
+    {upcoming.length > 0 ? (
+      <div>{upcoming.map((entry) => <ShowEntry entry={entry} upcoming />)}</div>
+    ) : (
+      <p class="text-muted">Nothing on the calendar right now &mdash; check back soon.</p>
+    )}
+  </section>
+
+  {past.length > 0 && (
+    <section class="mb-14">
+      <h2 class="font-serif text-2xl tracking-tight mb-5">Past shows</h2>
+      <div>{past.map((entry) => <ShowEntry entry={entry} />)}</div>
+    </section>
+  )}
+</Base>
