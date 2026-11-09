@@ -7,7 +7,9 @@ import "~/styles/print.css";
 
 import Header from "~/components/Header.astro";
 import Footer from "~/components/Footer.astro";
-import { SITE } from "~/consts";
+import { SITE, SOCIAL, COMEDY_SOCIALS } from "~/consts";
+import portrait from "~/assets/ruan.jpeg";
+import { getImage } from "astro:assets";
 
 type Props = {
   title?: string;
@@ -22,16 +24,35 @@ type Props = {
 const {
   title = SITE.title,
   description = SITE.description,
-  image = "/og-default.png",
+  image = "/og-default.jpg",
   math = false,
   bare = false,
   ogType = "website",
   pubDate,
 } = Astro.props;
 
-const fullTitle = title === SITE.title ? title : `${title} · ${SITE.title}`;
+const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "";
+const fullTitle =
+  title === SITE.title ? (isHome ? SITE.homeTitle : title) : `${title} · ${SITE.title}`;
 const canonical = new URL(Astro.url.pathname, SITE.url).toString();
 const imageUrl = new URL(image, SITE.url).toString();
+
+// Structured data: tells search engines who this Ruan van der Merwe is.
+// Comedy is the headline; the day job is a secondary fact.
+const headshot = await getImage({ src: portrait, width: 800, format: "jpg" });
+const personLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: SITE.author,
+  url: SITE.url,
+  image: new URL(headshot.src, SITE.url).toString(),
+  jobTitle: "Stand-up Comedian",
+  description: SITE.description,
+  homeLocation: { "@type": "Place", name: SITE.location },
+  knowsAbout: ["Stand-up comedy", "Observational comedy"],
+  worksFor: { "@type": "Organization", name: "ByteFuse AI", url: SOCIAL.bytefuse },
+  sameAs: [...COMEDY_SOCIALS.map((s) => s.href), SOCIAL.linkedin],
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -60,6 +81,8 @@ const imageUrl = new URL(image, SITE.url).toString();
     <meta name="twitter:image" content={imageUrl} />
 
     {math && <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxir" crossorigin="anonymous" />}
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(personLd)} />
 
     <script is:inline>
       (function () {

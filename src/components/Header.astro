@@ -1,5 +1,5 @@
 ---
-import { NAV, SITE } from "~/consts";
+import { NAV, RESEARCH_NAV, SITE } from "~/consts";
 import ThemeToggle from "./ThemeToggle.astro";
 
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
@@ -7,6 +7,7 @@ const isActive = (href: string) => {
   if (href === "/") return path === "/";
   return path === href || path.startsWith(href + "/");
 };
+const inResearch = path === "/research" || path.startsWith("/research/");
 ---
 <header class="border-b border-rule">
   <div class="max-w-3xl mx-auto px-5 sm:px-8 py-5 flex items-center justify-between gap-4 sm:gap-6">
@@ -34,4 +35,21 @@ const isActive = (href: string) => {
       <ThemeToggle />
     </nav>
   </div>
+  {inResearch && (
+    <div class="border-t border-rule">
+      <nav class="max-w-3xl mx-auto px-5 sm:px-8 py-2.5 flex flex-wrap gap-x-4 gap-y-1 text-xs small-caps">
+        {RESEARCH_NAV.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "!no-underline transition-colors",
+              path === item.href ? "!text-accent" : "hover:!text-ink",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    </div>
+  )}
 </header>

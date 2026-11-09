@@ -1,0 +1,29 @@
+---
+import Base from "~/layouts/Base.astro";
+import { getCollection } from "astro:content";
+import ShowEntry from "~/components/ShowEntry.astro";
+import { COMEDY_SOCIALS } from "~/consts";
+
+const clips = (await getCollection("shows"))
+  .filter((s) => s.data.video)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const youtube = COMEDY_SOCIALS.find((s) => s.label === "youtube");
+---
+<Base
+  title="Stand-up Comedy Clips"
+  description="Watch stand-up comedy clips from Ruan van der Merwe's sets around Cape Town."
+>
+  <header class="mb-10">
+    <h1 class="font-serif text-[2.2rem] sm:text-[2.6rem] tracking-tight mb-3">Clips</h1>
+    <p class="text-muted leading-relaxed max-w-reading">
+      Recordings from the stage, rough edges included.
+      {youtube && <>More on <a href={youtube.href} target="_blank" rel="noopener" class="external">YouTube</a>.</>}
+    </p>
+  </header>
+
+  {clips.length > 0 ? (
+    <div>{clips.map((entry) => <ShowEntry entry={entry} />)}</div>
+  ) : (
+    <p class="text-muted">No clips up yet &mdash; check back soon.</p>
+  )}
+</Base>

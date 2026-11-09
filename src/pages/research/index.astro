@@ -1,0 +1,89 @@
+---
+import Base from "~/layouts/Base.astro";
+import { getCollection } from "astro:content";
+import { SITE, SOCIAL } from "~/consts";
+
+const papers = (await getCollection("papers"))
+  .filter((p) => p.data.selected)
+  .sort((a, b) => b.data.year - a.data.year);
+
+const projects = (await getCollection("projects"))
+  .filter((p) => p.data.selected)
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+---
+<Base
+  title="Research"
+  description="Applied machine learning research on speech, continual learning and meta-learning. Co-founder and Head of Science at ByteFuse AI."
+>
+  <header class="mb-10">
+    <p class="small-caps mb-3">Co-Founder &amp; Head of Science &mdash; ByteFuse AI</p>
+    <h1 class="font-serif text-[2.2rem] sm:text-[2.6rem] tracking-tight mb-5">Research</h1>
+    <div class="prose-rvdm max-w-reading">
+      <p>
+        By day I&rsquo;m an applied machine learning researcher and AI leader,
+        working on speech and language systems with a focus on
+        <em>continual</em> and <em>meta-learning</em> for acoustic modelling. My research
+        addresses catastrophic forgetting in few-shot speech classification, analyses
+        representation geometry to predict downstream task performance, and develops
+        principled evaluation frameworks for real-world speech systems.
+      </p>
+      <p>
+        I co-founded <a href={SOCIAL.bytefuse} target="_blank" rel="noopener">ByteFuse AI</a>,
+        where I lead scientific strategy and ML architecture &mdash; guiding research direction,
+        mentoring researchers, and translating algorithmic advances into scalable deployed
+        systems across education, speech, and analytics.
+      </p>
+      <p class="text-muted text-[0.95rem]">
+        Find me on
+        <a href={SOCIAL.scholar} target="_blank" rel="noopener" class="external">Google Scholar</a>,
+        <a href={SOCIAL.github} target="_blank" rel="noopener" class="external">GitHub</a>,
+        <a href={SOCIAL.linkedin} target="_blank" rel="noopener" class="external">LinkedIn</a>,
+        or by email at <span>{SITE.email}</span>.
+      </p>
+    </div>
+  </header>
+
+  {papers.length > 0 && (
+    <section class="mb-14">
+      <div class="flex items-baseline justify-between mb-5">
+        <h2 class="font-serif text-2xl tracking-tight">Selected papers</h2>
+        <a href="/research/papers" class="text-sm small-caps !no-underline hover:!text-accent">all papers →</a>
+      </div>
+      <ul class="divide-y divide-rule">
+        {papers.map((p) => (
+          <li class="py-3">
+            <div class="flex items-baseline justify-between gap-4">
+              <div>
+                <div class="font-serif text-[1.05rem] leading-snug">{p.data.title}</div>
+                <div class="text-xs text-muted mt-0.5">{p.data.venue}</div>
+              </div>
+              <span class="text-xs text-muted shrink-0">{p.data.year}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {projects.length > 0 && (
+    <section class="mb-14">
+      <div class="flex items-baseline justify-between mb-5">
+        <h2 class="font-serif text-2xl tracking-tight">Selected projects</h2>
+        <a href="/research/projects" class="text-sm small-caps !no-underline hover:!text-accent">all projects →</a>
+      </div>
+      <ul class="divide-y divide-rule">
+        {projects.map((p) => (
+          <li class="py-3">
+            <div class="flex items-baseline justify-between gap-4">
+              <div>
+                <div class="font-serif text-[1.05rem] leading-snug">{p.data.title}</div>
+                <div class="text-xs text-muted mt-0.5">{p.data.summary}</div>
+              </div>
+              {p.data.period && <span class="text-xs text-muted shrink-0">{p.data.period}</span>}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>

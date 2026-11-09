@@ -8,6 +8,15 @@ import rehypeKatex from "rehype-katex";
 export default defineConfig({
   site: "https://ruanvdmerwe.github.io",
   trailingSlash: "ignore",
+  // Old top-level URLs from before the site went comedy-first.
+  redirects: {
+    "/comedy": "/shows",
+    "/papers": "/research/papers",
+    "/projects": "/research/projects",
+    "/talks": "/research/talks",
+    "/supervision": "/research/supervision",
+    "/cv": "/research/cv",
+  },
   integrations: [
     mdx(),
     sitemap(),
