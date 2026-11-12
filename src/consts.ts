@@ -3,23 +3,24 @@ export const SITE = {
   // Used as the <title> of the homepage. Keep "Comedian" next to the name:
   // it is what separates this Ruan van der Merwe from all the others in search.
   homeTitle: "Ruan van der Merwe | Stand-up Comedian, Cape Town",
+  tagline: "Your fifth favourite socially awkward comedian",
+  showName: "The Socially Awkward Afrikaner",
   description:
-    "Ruan van der Merwe is a Cape Town stand-up comedian. Observational comedy about the everyday awkward moments in life. Upcoming shows, clips, and bookings.",
+    "Ruan van der Merwe: your fifth favourite socially awkward comedian. Cape Town stand-up, currently building a show called The Socially Awkward Afrikaner. Clips and bookings.",
   author: "Ruan van der Merwe",
   // Switch to the custom domain once it is live (also update astro.config.mjs
   // and add public/CNAME).
   url: "https://ruanvdmerwe.github.io",
   email: "ruan [at] bytefuse [dot] ai",
-  // Address promoters should use for bookings. Leave empty to fall back to `email`.
-  bookingEmail: "",
+  // Booking address, kept in parts so it never appears whole in the HTML.
+  // BookingEmail.astro reassembles it in the browser.
+  bookingEmail: { user: "ruanh.vandermerwe", domain: "gmail.com" },
   location: "Cape Town, South Africa",
   role: "Stand-up Comedian · Cape Town",
 };
 
 export const NAV = [
-  { href: "/", label: "about" },
-  { href: "/shows", label: "shows" },
-  { href: "/clips", label: "clips" },
+  { href: "/", label: "comedy" },
   { href: "/writing", label: "writing" },
   { href: "/research", label: "research" },
 ];
@@ -53,5 +54,3 @@ export const COMEDY_SOCIALS = [
   { label: "tiktok", href: SOCIAL.tiktok },
   { label: "youtube", href: SOCIAL.youtube },
 ].filter((s) => s.href);
-
-export const BOOKING_EMAIL = SITE.bookingEmail || SITE.email;

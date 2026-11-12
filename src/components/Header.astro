@@ -20,7 +20,7 @@ const inResearch = path === "/research" || path.startsWith("/research/");
     </a>
     <nav class="flex flex-wrap items-center justify-end gap-x-3 gap-y-1 sm:gap-x-5 text-sm">
       {
-        NAV.filter((item) => item.href !== "/").map((item) => (
+        NAV.map((item) => (
           <a
             href={item.href}
             class:list={[

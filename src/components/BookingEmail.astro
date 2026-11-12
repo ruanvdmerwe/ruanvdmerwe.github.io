@@ -1,0 +1,33 @@
+---
+// Booking email link that never puts the address in the HTML.
+// The parts are stored reversed in data attributes; the inline script below
+// rebuilds the mailto: link and the visible text in the browser. Without
+// JavaScript, readers see "user [at] domain [dot] tld".
+import { SITE } from "~/consts";
+
+type Props = { class?: string; label?: string; subject?: string };
+const { class: className, label, subject = "Booking enquiry" } = Astro.props;
+const { user, domain } = SITE.bookingEmail;
+const reverse = (s: string) => s.split("").reverse().join("");
+const fallback = `${user} [at] ${domain.replace(/\./g, " [dot] ")}`;
+---
+<a
+  href="#book"
+  class:list={["js-booking-email", className]}
+  data-u={reverse(user)}
+  data-d={reverse(domain)}
+  data-s={subject}
+  data-label={label}
+>{label ?? fallback}</a>
+
+<script is:inline>
+  (function () {
+    document.querySelectorAll("a.js-booking-email:not([data-ready])").forEach(function (a) {
+      var r = function (s) { return s.split("").reverse().join(""); };
+      var addr = r(a.dataset.u) + "@" + r(a.dataset.d);
+      a.href = "mailto:" + addr + "?subject=" + encodeURIComponent(a.dataset.s || "");
+      if (!a.dataset.label) a.textContent = addr;
+      a.dataset.ready = "1";
+    });
+  })();
+</script>

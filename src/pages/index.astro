@@ -1,151 +1,432 @@
 ---
+import "@fontsource/anton";
 import Base from "~/layouts/Base.astro";
-import { Image, getImage } from "astro:assets";
-import { getCollection } from "astro:content";
-import { SITE, SOCIAL, COMEDY_SOCIALS, BOOKING_EMAIL } from "~/consts";
-import FormattedDate from "~/components/FormattedDate.astro";
-import ShowEntry from "~/components/ShowEntry.astro";
-import NoAiNote from "~/components/NoAiNote.astro";
-import stagePhoto from "~/content/shows/images/gcc_2_2029017.jpg";
+import { Image } from "astro:assets";
+import { SITE, COMEDY_SOCIALS } from "~/consts";
+import BookingEmail from "~/components/BookingEmail.astro";
+import hero from "~/assets/comedy/hero.jpg";
 
-const today = new Date();
-today.setHours(0, 0, 0, 0);
-const allShows = await getCollection("shows");
-const upcoming = allShows
-  .filter((s) => s.data.date.getTime() >= today.getTime())
-  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime())
-  .slice(0, 4);
+// Mid-laugh, mid-wince and mid-act-out frames from the Playthings set.
+const faceFiles = import.meta.glob<{ default: ImageMetadata }>(
+  "~/assets/comedy/faces/*.jpg",
+  { eager: true },
+);
+const faces = Object.keys(faceFiles)
+  .sort()
+  .map((k) => faceFiles[k].default);
 
-// Most recent show with a video doubles as the featured clip.
-const featured = allShows
-  .filter((s) => s.data.video)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())[0];
-
-const posts = (await getCollection("blog", ({ data }) => !data.draft))
-  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
-  .slice(0, 3);
-
-// High-res press photo promoters can download for posters.
-const pressPhoto = await getImage({ src: stagePhoto, width: 2400, format: "jpg", quality: 90 });
+const clips = {
+  show: { src: "/clips/socially-awkward-afrikaner.mp4", poster: "/clips/socially-awkward-afrikaner.jpg" },
+  daddy: { src: "/clips/daddy.mp4", poster: "/clips/daddy.jpg" },
+};
+const year = new Date().getFullYear();
 ---
-<Base>
-  <section class="mb-14">
-    <Image
-      src={stagePhoto}
-      alt={`${SITE.author} performing stand-up comedy at Ground Culture in Cape Town`}
-      widths={[640, 960, 1440]}
-      sizes="(min-width: 768px) 720px, 100vw"
-      loading="eager"
-      format="webp"
-      quality={82}
-      class="w-full aspect-[3/2] object-cover rounded-xl border border-rule mb-8"
-    />
-    <p class="small-caps mb-3">{SITE.role}</p>
-    <h1 class="font-serif text-[2.4rem] sm:text-[3rem] leading-[1.05] tracking-tight mb-6">
-      {SITE.title}
-    </h1>
-    <div class="prose-rvdm max-w-reading">
-      <p>
-        I&rsquo;m a stand-up comedian based in {SITE.location.split(",")[0]}, turning the
-        everyday awkward moments in life into comedy. You&rsquo;ll mostly find me on
-        Cape Town stages, testing new material in front of real people.
-      </p>
-    </div>
-    <div class="flex flex-wrap gap-3 mt-6">
-      <a
-        href="/shows"
-        class="!no-underline inline-block rounded-full bg-accent !text-bg px-5 py-2 text-sm font-medium hover:opacity-90"
-      >Upcoming shows</a>
-      <a
-        href="#bookings"
-        class="!no-underline inline-block rounded-full border border-rule px-5 py-2 text-sm font-medium hover:!border-accent"
-      >Book me</a>
-    </div>
-  </section>
+<Base bare>
+  <main class="page">
+    <header class="wrap topbar">
+      <a href="/" class="brand">Ruan van der Merwe</a>
+      <nav aria-label="Main">
+        <a href="#watch">Watch</a>
+        <a href="#book">Book me</a>
+        <a href="/research" class="quiet">Research</a>
+      </nav>
+    </header>
 
-  <section class="mb-14">
-    <div class="flex items-baseline justify-between mb-5">
-      <h2 class="font-serif text-2xl tracking-tight">Upcoming shows</h2>
-      <a href="/shows" class="text-sm small-caps !no-underline hover:!text-accent">all shows →</a>
-    </div>
-    {upcoming.length > 0 ? (
-      <ul class="divide-y divide-rule">
-        {upcoming.map((s) => (
-          <li class="py-3">
-            <div class="flex items-baseline justify-between gap-4">
-              <div>
-                <div class="font-serif text-[1.05rem] leading-snug">
-                  {s.data.link ? <a href={s.data.link} class="!no-underline hover:text-accent" target="_blank" rel="noopener">{s.data.title}</a> : s.data.title}
-                </div>
-                <div class="text-xs text-muted mt-0.5">
-                  {s.data.venue}{s.data.location && ` · ${s.data.location}`}{s.data.time && ` · ${s.data.time}`}
-                  {s.data.tickets && <> · <a href={s.data.tickets} target="_blank" rel="noopener">tickets</a></>}
-                </div>
-              </div>
-              <span class="text-xs text-muted shrink-0"><FormattedDate date={s.data.date} format="long" /></span>
-            </div>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p class="text-muted">New dates coming soon. Check back, or follow along on socials.</p>
-    )}
-  </section>
-
-  {featured && (
-    <section class="mb-14">
-      <div class="flex items-baseline justify-between mb-1">
-        <h2 class="font-serif text-2xl tracking-tight">Watch</h2>
-        <a href="/clips" class="text-sm small-caps !no-underline hover:!text-accent">all clips →</a>
+    <!-- Hero -->
+    <section class="wrap hero">
+      <div class="hero-text">
+        <h1>
+          <span class="eyebrow">Ruan van der Merwe &middot; Stand-up comedian, Cape Town</span>
+          <span class="mega">Your fifth favourite socially awkward comedian.</span>
+        </h1>
+        <div class="actions">
+          <a href="#watch" class="btn btn-solid">Watch a clip</a>
+          <a href="#book" class="btn btn-line">Book me</a>
+        </div>
       </div>
-      <ShowEntry entry={featured} />
-    </section>
-  )}
-
-  <section class="mb-14">
-    <NoAiNote />
-  </section>
-
-  <section id="bookings" class="mb-14 scroll-mt-8">
-    <h2 class="font-serif text-2xl tracking-tight mb-5">Bookings &amp; press</h2>
-    <div class="prose-rvdm max-w-reading">
-      <p>
-        Running a room, a corporate event, or a festival and need a comic on the lineup?
-        Email <span class="whitespace-nowrap">{BOOKING_EMAIL}</span>{COMEDY_SOCIALS.length > 0 && <> or message me on {COMEDY_SOCIALS.map((s, i) => <>{i > 0 && (i === COMEDY_SOCIALS.length - 1 ? " or " : ", ")}<a href={s.href} target="_blank" rel="noopener" class="external">{s.label}</a></>)}</>}.
-      </p>
-      <p class="text-muted text-[0.95rem]">
-        <strong class="text-ink font-medium">Short bio:</strong> {SITE.author} is a Cape Town
-        stand-up comedian whose observational material digs into the everyday awkward
-        moments everyone has and nobody talks about.
-      </p>
-      <p class="text-[0.95rem]">
-        <a href={pressPhoto.src} download="ruan-van-der-merwe-comedian.jpg">Download a press photo</a>
-      </p>
-    </div>
-  </section>
-
-  {posts.length > 0 && (
-    <section class="mb-14">
-      <div class="flex items-baseline justify-between mb-5">
-        <h2 class="font-serif text-2xl tracking-tight">Recent writing</h2>
-        <a href="/writing" class="text-sm small-caps !no-underline hover:!text-accent">all posts →</a>
+      <div class="hero-photo">
+        <Image
+          src={hero}
+          alt="Ruan van der Merwe crouched over the mic, mid-story, at Playthings in Cape Town"
+          widths={[400, 640, 960]}
+          sizes="(min-width: 900px) 420px, 90vw"
+          loading="eager"
+          format="webp"
+          quality={80}
+        />
+        <p class="sticker" aria-hidden="true">Now writing:<br /><strong>The Socially Awkward Afrikaner</strong></p>
       </div>
-      <ul class="divide-y divide-rule">
-        {posts.map((post) => (
-          <li class="py-3">
-            <a href={`/writing/${post.id}`} class="!no-underline flex items-baseline justify-between gap-4 group">
-              <span class="font-serif text-[1.05rem] group-hover:text-accent">{post.data.title}</span>
-              <span class="text-xs text-muted shrink-0"><FormattedDate date={post.data.pubDate} format="short" /></span>
-            </a>
-          </li>
-        ))}
-      </ul>
     </section>
-  )}
 
-  <p class="text-muted text-[0.95rem] max-w-reading">
-    By day I co-run <a href={SOCIAL.bytefuse} target="_blank" rel="noopener">ByteFuse AI</a>,
-    where I lead the science team. If you&rsquo;re here for the machine learning,
-    <a href="/research">the research side lives here</a>.
-  </p>
+    <!-- The show -->
+    <section id="watch" class="wrap split">
+      <div class="split-text">
+        <p class="kicker">Work in progress</p>
+        <h2>{SITE.showName}</h2>
+        <p class="lead">
+          I&rsquo;m creating a show called <em>{SITE.showName}</em>. You&rsquo;ll mostly find
+          me on the Cape Town comedy circuit.
+        </p>
+        <p class="muted">This is the bit where I first tell a room about it.</p>
+      </div>
+      <figure class="clip">
+        <video src={clips.show.src} poster={clips.show.poster} controls playsinline preload="none" width="720" height="1280"></video>
+        <figcaption>Playthings, Cape Town &middot; November 2026</figcaption>
+      </figure>
+    </section>
+
+    <!-- Highlights -->
+    <section class="wrap">
+      <h2 class="section-title">Highlights</h2>
+      <div class="highlights">
+        <figure class="clip">
+          <video src={clips.daddy.src} poster={clips.daddy.poster} controls playsinline preload="none" width="720" height="1280"></video>
+          <figcaption>&ldquo;Daddy.&rdquo; &middot; Playthings</figcaption>
+        </figure>
+        <div>
+          <p class="kicker">From the stage</p>
+          <ul class="faces" role="list">
+            {faces.map((f, i) => (
+              <li style={`--tilt: ${[-3, 2, -1.5, 3, -2.5, 1.5][i % 6]}deg`}>
+                <Image src={f} alt="" widths={[180, 360]} sizes="180px" format="webp" quality={78} loading="lazy" />
+              </li>
+            ))}
+          </ul>
+          <p class="muted small">Playthings, Cape Town.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- No AI -->
+    <section class="wrap">
+      <div>
+        <p class="kicker">No AI was used in the making of this comedy</p>
+        <blockquote>
+          I&rsquo;d rather bomb with my own bad idea than kill with a borrowed one.
+        </blockquote>
+        <p class="muted">
+          I build machine learning systems for a living, so to be absolutely clear: none of my
+          material is written, edited, or workshopped with AI. Every joke is mine, written by
+          hand and tested in front of real people. I don&rsquo;t think AI belongs in art,
+          comedy included.
+        </p>
+      </div>
+    </section>
+
+    <!-- Book -->
+    <section id="book" class="wrap">
+      <div class="book">
+        <h2>Book me</h2>
+        <p class="lead">
+          To book me for a show or a private event, send me an email and I&rsquo;ll reply.
+        </p>
+        <BookingEmail class="btn btn-solid btn-big" label="Email me" />
+        <p class="muted small">Or copy it: <BookingEmail /></p>
+      </div>
+    </section>
+
+    <footer class="wrap foot">
+      <span class="brand">Ruan van der Merwe</span>
+      <nav aria-label="Elsewhere">
+        {COMEDY_SOCIALS.map((s) => (
+          <a href={s.href} target="_blank" rel="noopener me">{s.label}</a>
+        ))}
+        <a href="/writing">Writing</a>
+        <a href="/research" class="quiet">By day: ML research &rarr;</a>
+      </nav>
+      <p class="muted small">&copy; {year} {SITE.author}</p>
+    </footer>
+  </main>
 </Base>
+
+<style>
+  :global(html[data-theme]),
+  :global(html[data-theme] body) {
+    background: #0d0c0b;
+  }
+
+  .page {
+    --ink: #f4f1ea;
+    --soft: #d9d4c9;
+    --mute: #a39e93;
+    --line: #2c2925;
+    --amber: #ffb547;
+    --night: #0d0c0b;
+    color: var(--ink);
+    background: var(--night);
+    min-height: 100vh;
+    font-family: "Inter Variable", system-ui, sans-serif;
+    overflow-x: clip;
+  }
+
+  /* :where() keeps this at zero extra specificity so button colours win. */
+  .page :where(a) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  @media (min-width: 640px) {
+    .wrap { padding: 0 40px; }
+  }
+
+  h1, h2, .brand, blockquote, .sticker strong {
+    font-family: "Anton", Impact, sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+  }
+
+  /* Top bar */
+  .topbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  .brand { font-size: 1.3rem; }
+  .topbar nav, .foot nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 24px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .topbar nav a, .foot nav a {
+    padding: 10px 0;
+  }
+  .page nav a:hover { color: var(--amber); }
+  .quiet { color: var(--mute) !important; }
+  .quiet:hover { color: var(--amber) !important; }
+
+  /* Hero */
+  .hero {
+    display: grid;
+    gap: 48px;
+    align-items: center;
+    padding-top: 32px;
+    padding-bottom: 96px;
+  }
+  @media (min-width: 900px) {
+    .hero { grid-template-columns: minmax(0, 1fr) 420px; gap: 64px; padding-top: 48px; }
+  }
+  .eyebrow {
+    display: block;
+    font-family: "Inter Variable", system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+    margin-bottom: 20px;
+  }
+  .mega {
+    display: block;
+    font-size: clamp(3.2rem, 9vw, 7.4rem);
+    line-height: 0.9;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 40px;
+  }
+  .page :global(.btn) {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 26px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .page :global(.btn:hover) { transform: translateY(-2px); }
+  .page :global(.btn-solid) { background: var(--amber); color: var(--night); }
+  .page .btn-line { border: 1.5px solid var(--ink); }
+  .page .btn-line:hover { border-color: var(--amber); color: var(--amber); }
+  .page :global(.btn-big) { min-height: 60px; padding: 0 36px; font-size: 1rem; }
+
+  .hero-photo {
+    position: relative;
+    max-width: 420px;
+    width: 100%;
+    justify-self: center;
+  }
+  .hero-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 62%;
+    border-radius: 6px;
+  }
+  .sticker {
+    position: absolute;
+    left: -28px;
+    bottom: 36px;
+    margin: 0;
+    padding: 14px 18px;
+    max-width: 230px;
+    background: var(--amber);
+    color: var(--night);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    transform: rotate(-6deg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+  .sticker strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 1.45rem;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--night);
+  }
+  @media (max-width: 899px) {
+    .sticker { left: -8px; }
+  }
+
+  /* Sections */
+  section + section { margin-top: 120px; }
+  .kicker {
+    margin: 0 0 14px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+  h2, .section-title {
+    margin: 0 0 24px;
+    font-size: clamp(2.6rem, 6vw, 4.6rem);
+    line-height: 0.95;
+  }
+  .lead {
+    margin: 0 0 18px;
+    font-size: 1.25rem;
+    line-height: 1.55;
+    color: var(--soft);
+    max-width: 34em;
+  }
+  .lead em { font-style: normal; color: var(--ink); font-weight: 600; }
+  .muted { color: var(--mute); line-height: 1.6; max-width: 38em; }
+  .small { font-size: 0.9rem; }
+
+  .split {
+    display: grid;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .split { grid-template-columns: minmax(0, 1fr) 340px; gap: 72px; }
+  }
+
+  .clip {
+    margin: 0;
+    width: 100%;
+    max-width: 340px;
+    justify-self: center;
+  }
+  .clip video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 9 / 16;
+    background: #000;
+    border-radius: 6px;
+  }
+  .clip figcaption {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: var(--mute);
+  }
+
+  .highlights {
+    display: grid;
+    gap: 48px;
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .highlights { grid-template-columns: 340px minmax(0, 1fr); gap: 72px; }
+  }
+  .faces {
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    max-width: 560px;
+  }
+  .faces li {
+    transform: rotate(var(--tilt));
+    transition: transform 0.2s ease;
+  }
+  .faces li:hover { transform: rotate(0deg) scale(1.06); }
+  .faces img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border: 5px solid var(--ink);
+    border-radius: 2px;
+  }
+
+  /* No AI */
+  blockquote {
+    margin: 0 0 20px;
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    line-height: 1.02;
+  }
+
+  /* Book */
+  .book {
+    background: #1a1816;
+    border-radius: 8px;
+    padding: 56px 28px;
+    text-align: center;
+  }
+  @media (min-width: 640px) {
+    .book { padding: 72px 56px; }
+  }
+  .book .lead, .book .muted { margin-left: auto; margin-right: auto; }
+  .book :global(.btn-big) { margin: 12px 0 20px; }
+  .book .muted :global(a) { color: var(--soft); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Footer */
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 24px;
+    margin-top: 120px;
+    padding-top: 32px;
+    padding-bottom: 40px;
+    border-top: 1px solid var(--line);
+  }
+  .foot .small { flex-basis: 100%; margin: 8px 0 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page :global(.btn), .faces li { transition: none; }
+    .page :global(.btn:hover) { transform: none; }
+  }
+</style>

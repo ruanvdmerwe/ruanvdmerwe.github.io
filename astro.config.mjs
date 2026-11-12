@@ -10,7 +10,9 @@ export default defineConfig({
   trailingSlash: "ignore",
   // Old top-level URLs from before the site went comedy-first.
   redirects: {
-    "/comedy": "/shows",
+    "/comedy": "/",
+    "/shows": "/",
+    "/clips": "/",
     "/papers": "/research/papers",
     "/projects": "/research/projects",
     "/talks": "/research/talks",
