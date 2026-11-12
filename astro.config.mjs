@@ -13,6 +13,10 @@ export default defineConfig({
     "/comedy": "/",
     "/shows": "/",
     "/clips": "/",
+    // Writing is paused. To bring it back, restore src/pages/writing/ and
+    // src/pages/rss.xml.ts from git and drop these two lines.
+    "/writing": "/",
+    "/writing/2026-05-welcome": "/",
     "/papers": "/research/papers",
     "/projects": "/research/projects",
     "/talks": "/research/talks",
