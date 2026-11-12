@@ -1,33 +1,30 @@
 ---
-// Booking email link that never puts the address in the HTML.
-// The parts are stored reversed in data attributes; the inline script below
-// rebuilds the mailto: link and the visible text in the browser. Without
-// JavaScript, readers see "user [at] domain [dot] tld".
+// "Email me" link that keeps the booking address away from scrapers.
+// The HTML only holds the address reversed and base64-encoded. Nothing is
+// decoded on page load: the address is built only when someone clicks, so
+// bots that read the HTML or run the page's scripts never see it. On click
+// the mail app opens and the link text turns into the address so it can be
+// copied.
 import { SITE } from "~/consts";
 
 type Props = { class?: string; label?: string; subject?: string };
-const { class: className, label, subject = "Booking enquiry" } = Astro.props;
+const { class: className, label = "Email me", subject = "Booking enquiry" } = Astro.props;
 const { user, domain } = SITE.bookingEmail;
-const reverse = (s: string) => s.split("").reverse().join("");
-const fallback = `${user} [at] ${domain.replace(/\./g, " [dot] ")}`;
+const encoded = Buffer.from(`${user}@${domain}`.split("").reverse().join("")).toString("base64");
 ---
-<a
-  href="#book"
-  class:list={["js-booking-email", className]}
-  data-u={reverse(user)}
-  data-d={reverse(domain)}
-  data-s={subject}
-  data-label={label}
->{label ?? fallback}</a>
+<a href="#book" class:list={["js-booking-email", className]} data-e={encoded} data-s={subject}>{label}</a>
 
 <script is:inline>
   (function () {
-    document.querySelectorAll("a.js-booking-email:not([data-ready])").forEach(function (a) {
-      var r = function (s) { return s.split("").reverse().join(""); };
-      var addr = r(a.dataset.u) + "@" + r(a.dataset.d);
-      a.href = "mailto:" + addr + "?subject=" + encodeURIComponent(a.dataset.s || "");
-      if (!a.dataset.label) a.textContent = addr;
-      a.dataset.ready = "1";
+    if (window.__bookingEmail) return;
+    window.__bookingEmail = true;
+    document.addEventListener("click", function (ev) {
+      var a = ev.target.closest && ev.target.closest("a.js-booking-email");
+      if (!a) return;
+      ev.preventDefault();
+      var addr = atob(a.dataset.e).split("").reverse().join("");
+      a.textContent = addr;
+      window.location.href = "mailto:" + addr + "?subject=" + encodeURIComponent(a.dataset.s || "");
     });
   })();
 </script>
