@@ -11,17 +11,17 @@ const venueFiles = import.meta.glob<{ default: ImageMetadata }>(
   "~/assets/comedy/venues/*.jpg",
   { eager: true },
 );
-const venueNames = [
-  "Ground Culture",
-  "Kaas Kween",
-  "Toneelhuis",
-  "Why Did Comedy",
-  "Comedy on Kloof",
-  "Playthings",
+const venueInfo = [
+  { name: "Ground Culture", alt: "The crowd laughing at Ground Culture in Cape Town" },
+  { name: "Kaas Kween", alt: "Ruan van der Merwe mid-bit at Kaas Kween" },
+  { name: "Toneelhuis", alt: "Ruan van der Merwe on the red-curtain stage at Toneelhuis" },
+  { name: "Why Did Comedy", alt: "Ruan van der Merwe performing at Why Did Comedy" },
+  { name: "Comedy on Kloof", alt: "Ruan van der Merwe on stage at Comedy on Kloof, seen from the audience" },
+  { name: "Playthings", alt: "Ruan van der Merwe laughing on stage at Playthings" },
 ];
 const venues = Object.keys(venueFiles)
   .sort()
-  .map((k, i) => ({ src: venueFiles[k].default, name: venueNames[i] }));
+  .map((k, i) => ({ src: venueFiles[k].default, ...venueInfo[i] }));
 
 const clips = {
   show: { src: "/clips/socially-awkward-afrikaner.mp4", poster: "/clips/socially-awkward-afrikaner.jpg" },
@@ -92,7 +92,7 @@ const year = new Date().getFullYear();
             <figure>
               <Image
                 src={v.src}
-                alt={`Ruan van der Merwe performing at ${v.name}`}
+                alt={v.alt}
                 widths={[320, 640]}
                 sizes="(min-width: 900px) 340px, 45vw"
                 format="webp"
@@ -111,7 +111,7 @@ const year = new Date().getFullYear();
       <div>
         <p class="kicker">No AI was used in the making of this comedy</p>
         <blockquote>
-          I&rsquo;d rather bomb with my own bad idea than kill with a borrowed one.
+          I&rsquo;d rather bomb with my own bad idea than kill with a stolen one.
         </blockquote>
         <p class="muted">
           I build machine learning systems for a living, so to be absolutely clear: none of my
