@@ -6,18 +6,25 @@ import { SITE, COMEDY_SOCIALS } from "~/consts";
 import BookingEmail from "~/components/BookingEmail.astro";
 import hero from "~/assets/comedy/hero.jpg";
 
-// Mid-laugh, mid-wince and mid-act-out frames from the Playthings set.
-const faceFiles = import.meta.glob<{ default: ImageMetadata }>(
-  "~/assets/comedy/faces/*.jpg",
+// One frame from each room, in the order the files are numbered.
+const venueFiles = import.meta.glob<{ default: ImageMetadata }>(
+  "~/assets/comedy/venues/*.jpg",
   { eager: true },
 );
-const faces = Object.keys(faceFiles)
+const venueNames = [
+  "Ground Culture",
+  "Kaas Kween",
+  "Toneelhuis",
+  "Why Did Comedy",
+  "Comedy on Kloof",
+  "Playthings",
+];
+const venues = Object.keys(venueFiles)
   .sort()
-  .map((k) => faceFiles[k].default);
+  .map((k, i) => ({ src: venueFiles[k].default, name: venueNames[i] }));
 
 const clips = {
   show: { src: "/clips/socially-awkward-afrikaner.mp4", poster: "/clips/socially-awkward-afrikaner.jpg" },
-  daddy: { src: "/clips/daddy.mp4", poster: "/clips/daddy.jpg" },
 };
 const year = new Date().getFullYear();
 ---
@@ -75,26 +82,28 @@ const year = new Date().getFullYear();
       </figure>
     </section>
 
-    <!-- Highlights -->
+    <!-- Around Cape Town -->
     <section class="wrap">
-      <h2 class="section-title">Highlights</h2>
-      <div class="highlights">
-        <figure class="clip">
-          <video src={clips.daddy.src} poster={clips.daddy.poster} controls playsinline preload="none" width="720" height="1280"></video>
-          <figcaption>&ldquo;Daddy.&rdquo; &middot; Playthings</figcaption>
-        </figure>
-        <div>
-          <p class="kicker">From the stage</p>
-          <ul class="faces" role="list">
-            {faces.map((f, i) => (
-              <li style={`--tilt: ${[-3, 2, -1.5, 3, -2.5, 1.5][i % 6]}deg`}>
-                <Image src={f} alt="" widths={[180, 360]} sizes="180px" format="webp" quality={78} loading="lazy" />
-              </li>
-            ))}
-          </ul>
-          <p class="muted small">Playthings, Cape Town.</p>
-        </div>
-      </div>
+      <p class="kicker">On stage</p>
+      <h2 class="section-title">Around Cape Town</h2>
+      <ul class="venues" role="list">
+        {venues.map((v, i) => (
+          <li style={`--tilt: ${[-2, 1.5, -1, 2, -1.5, 1][i % 6]}deg`}>
+            <figure>
+              <Image
+                src={v.src}
+                alt={`Ruan van der Merwe performing at ${v.name}`}
+                widths={[320, 640]}
+                sizes="(min-width: 900px) 340px, 45vw"
+                format="webp"
+                quality={78}
+                loading="lazy"
+              />
+              <figcaption>{v.name}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
     </section>
 
     <!-- No AI -->
@@ -356,36 +365,42 @@ const year = new Date().getFullYear();
     color: var(--mute);
   }
 
-  .highlights {
-    display: grid;
-    gap: 48px;
-    align-items: start;
-  }
-  @media (min-width: 900px) {
-    .highlights { grid-template-columns: 340px minmax(0, 1fr); gap: 72px; }
-  }
-  .faces {
+  .venues {
     list-style: none;
-    margin: 0 0 20px;
+    margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
-    max-width: 560px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
   }
-  .faces li {
+  @media (min-width: 760px) {
+    .venues { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+  }
+  .venues li {
     transform: rotate(var(--tilt));
     transition: transform 0.2s ease;
   }
-  .faces li:hover { transform: rotate(0deg) scale(1.06); }
-  .faces img {
+  .venues li:hover { transform: rotate(0deg) scale(1.03); }
+  .venues figure {
+    margin: 0;
+    padding: 8px 8px 0;
+    background: var(--ink);
+    border-radius: 2px;
+  }
+  .venues img {
     display: block;
     width: 100%;
     height: auto;
     aspect-ratio: 4 / 5;
     object-fit: cover;
-    border: 5px solid var(--ink);
-    border-radius: 2px;
+  }
+  .venues figcaption {
+    padding: 10px 2px 12px;
+    color: var(--night);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 
   /* No AI */
@@ -423,7 +438,7 @@ const year = new Date().getFullYear();
   .foot .small { flex-basis: 100%; margin: 8px 0 0; }
 
   @media (prefers-reduced-motion: reduce) {
-    .page :global(.btn), .faces li { transition: none; }
+    .page :global(.btn), .venues li { transition: none; }
     .page :global(.btn:hover) { transform: none; }
   }
 </style>
