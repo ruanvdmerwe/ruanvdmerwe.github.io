@@ -5,6 +5,7 @@ import { Image } from "astro:assets";
 import { SITE, COMEDY_SOCIALS } from "~/consts";
 import BookingEmail from "~/components/BookingEmail.astro";
 import hero from "~/assets/comedy/hero.jpg";
+import { SHOWS } from "~/data/shows";
 
 // One frame from each room, in the order the files are numbered.
 const venueFiles = import.meta.glob<{ default: ImageMetadata }>(
@@ -27,12 +28,41 @@ const clips = {
   show: { src: "/clips/socially-awkward-afrikaner.mp4", poster: "/clips/socially-awkward-afrikaner.jpg" },
 };
 const year = new Date().getFullYear();
+
+// Only shows from today onwards (Cape Town time). The site rebuilds nightly,
+// so past shows fall off without anyone touching the list.
+const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Africa/Johannesburg" }).format(new Date());
+const shows = SHOWS.filter((s) => s.date >= today)
+  .sort((a, b) => (a.date + (a.time ?? "")).localeCompare(b.date + (b.time ?? "")))
+  .map((s) => {
+    const d = new Date(`${s.date}T00:00:00Z`);
+    const fmt = (o: Intl.DateTimeFormatOptions) => d.toLocaleDateString("en-ZA", { timeZone: "UTC", ...o });
+    return { ...s, day: fmt({ day: "numeric" }), month: fmt({ month: "short" }), weekday: fmt({ weekday: "short" }) };
+  });
+
+// Event structured data, so Google can list the shows under his name.
+const showsLd = shows.map((s) => ({
+  "@context": "https://schema.org",
+  "@type": "ComedyEvent",
+  name: `${s.name}: Ruan van der Merwe`,
+  startDate: s.time ? `${s.date}T${s.time}:00+02:00` : s.date,
+  eventStatus: "https://schema.org/EventScheduled",
+  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  location: {
+    "@type": "Place",
+    name: s.venue ?? s.name,
+    address: { "@type": "PostalAddress", addressLocality: s.city, addressCountry: "ZA" },
+  },
+  performer: { "@type": "Person", name: SITE.author, url: SITE.url },
+  ...(s.url ? { url: s.url } : {}),
+}));
 ---
 <Base bare>
   <main class="page">
     <header class="wrap topbar">
       <a href="/" class="brand">Ruan van der Merwe</a>
       <nav aria-label="Main">
+        {shows.length > 0 && <a href="#shows">Shows</a>}
         <a href="#watch">Watch</a>
         <a href="#book">Book me</a>
         <a href="/research" class="quiet">Research</a>
@@ -64,6 +94,36 @@ const year = new Date().getFullYear();
         <p class="sticker" aria-hidden="true">Now writing:<br /><strong>The Socially Awkward Afrikaner</strong></p>
       </div>
     </section>
+
+    <!-- Next shows (hidden when nothing is coming up) -->
+    {shows.length > 0 && (
+      <section id="shows" class="wrap">
+        <p class="kicker">Come say hi</p>
+        <h2 class="section-title">Next shows</h2>
+        <ul class="shows" role="list">
+          {shows.map((s) => (
+            <li>
+              <p class="show-date">
+                <span class="show-day">{s.day}</span>
+                <span class="show-month">{s.month}</span>
+              </p>
+              <div class="show-info">
+                <p class="show-name">{s.name}</p>
+                <p class="show-where">
+                  {s.weekday}{s.time && ` · ${s.time}`} &middot; {s.venue ? `${s.venue}, ${s.city}` : s.city}
+                </p>
+              </div>
+              {s.url && (
+                <a href={s.url} class="btn btn-line show-link" target="_blank" rel="noopener">
+                  Tickets<span class="visually-hidden"> for {s.name} on {s.weekday} {s.day} {s.month}</span>
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(showsLd)} />
+      </section>
+    )}
 
     <!-- The show -->
     <section id="watch" class="wrap split">
@@ -401,6 +461,53 @@ const year = new Date().getFullYear();
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
+  }
+
+  /* Next shows */
+  .shows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+  .shows li {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 4px 24px;
+    align-items: center;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  @media (min-width: 640px) {
+    .shows li { grid-template-columns: 80px minmax(0, 1fr) auto; gap: 32px; }
+  }
+  .shows p { margin: 0; }
+  .show-date {
+    font-family: "Anton", Impact, sans-serif;
+    text-transform: uppercase;
+    line-height: 0.95;
+    text-align: center;
+  }
+  .show-day { display: block; font-size: 2.6rem; color: var(--amber); }
+  .show-month { display: block; font-size: 1rem; letter-spacing: 0.1em; color: var(--soft); }
+  .show-name {
+    font-family: "Anton", Impact, sans-serif;
+    text-transform: uppercase;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    line-height: 1.05;
+  }
+  .show-where { margin-top: 6px !important; color: var(--mute); }
+  .page .show-link { min-height: 44px; padding: 0 20px; font-size: 0.8rem; justify-self: start; }
+  @media (max-width: 639px) {
+    .show-link { grid-column: 2; margin-top: 12px; }
+  }
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
 
   /* No AI */

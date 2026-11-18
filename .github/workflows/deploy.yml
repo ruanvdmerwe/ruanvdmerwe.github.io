@@ -4,6 +4,9 @@ on:
   push:
     branches: [master]
   workflow_dispatch:
+  # Nightly rebuild so past shows drop off the homepage (04:00 Cape Town).
+  schedule:
+    - cron: "0 2 * * *"
 
 permissions:
   contents: read
