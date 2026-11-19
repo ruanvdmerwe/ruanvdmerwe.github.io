@@ -8,9 +8,8 @@ export const SITE = {
   description:
     "Ruan van der Merwe: your fifth favourite socially awkward comedian. Cape Town stand-up, currently building a show called The Socially Awkward Afrikaner. Clips and bookings.",
   author: "Ruan van der Merwe",
-  // Switch to the custom domain once it is live (also update astro.config.mjs
-  // and add public/CNAME).
-  url: "https://ruanvdmerwe.github.io",
+  // Also set in astro.config.mjs (site) and public/CNAME.
+  url: "https://ruanvandermerwe.co.za",
   email: "ruan [at] bytefuse [dot] ai",
   // Booking address, kept in parts so it never appears whole in the HTML.
   // BookingEmail.astro reassembles it in the browser.

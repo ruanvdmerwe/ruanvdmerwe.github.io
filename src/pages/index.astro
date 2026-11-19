@@ -32,13 +32,16 @@ const year = new Date().getFullYear();
 // Only shows from today onwards (Cape Town time). The site rebuilds nightly,
 // so past shows fall off without anyone touching the list.
 const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Africa/Johannesburg" }).format(new Date());
+// Dates are formatted by hand: locale formats vary (e.g. "Sept" vs "Sep").
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const parts = (date: string) => {
+  const [y, m, d] = date.split("-").map(Number);
+  return { month: MONTHS[m - 1], day: String(d), weekday: WEEKDAYS[new Date(Date.UTC(y, m - 1, d)).getUTCDay()] };
+};
 const shows = SHOWS.filter((s) => s.date >= today)
   .sort((a, b) => (a.date + (a.time ?? "")).localeCompare(b.date + (b.time ?? "")))
-  .map((s) => {
-    const d = new Date(`${s.date}T00:00:00Z`);
-    const fmt = (o: Intl.DateTimeFormatOptions) => d.toLocaleDateString("en-ZA", { timeZone: "UTC", ...o });
-    return { ...s, day: fmt({ day: "numeric" }), month: fmt({ month: "short" }), weekday: fmt({ weekday: "short" }) };
-  });
+  .map((s) => ({ ...s, ...parts(s.date) }));
 
 // Event structured data, so Google can list the shows under his name.
 const showsLd = shows.map((s) => ({

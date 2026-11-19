@@ -6,7 +6,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 
 export default defineConfig({
-  site: "https://ruanvdmerwe.github.io",
+  site: "https://ruanvandermerwe.co.za",
   trailingSlash: "ignore",
   // Old top-level URLs from before the site went comedy-first.
   redirects: {
