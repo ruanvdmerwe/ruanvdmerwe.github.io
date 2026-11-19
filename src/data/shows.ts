@@ -25,6 +25,13 @@ export type Show = {
 
 export const SHOWS: Show[] = [
   {
+    date: "2026-11-30",
+    name: "Open Stage",
+    venue: "Toneelhuis",
+    city: "Cape Town",
+    url: "https://www.quicket.co.za/events/405520-open-stage/?ref=organiser-profile#/",
+  },
+  {
     date: "2026-12-03",
     time: "19:30",
     name: "Off the Hook Comedy",
