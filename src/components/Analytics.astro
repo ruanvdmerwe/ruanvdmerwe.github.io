@@ -1,0 +1,15 @@
+---
+// Visit counting with GoatCounter (goatcounter.com). It sets no cookies and
+// stores nothing personal, so no cookie banner is needed. Leave
+// SITE.goatcounter empty to turn counting off.
+import { SITE } from "~/consts";
+const code = SITE.goatcounter;
+---
+{code && (
+  <script
+    is:inline
+    async
+    data-goatcounter={`https://${code}.goatcounter.com/count`}
+    src="//gc.zgo.at/count.js"
+  ></script>
+)}

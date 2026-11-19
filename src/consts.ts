@@ -15,6 +15,8 @@ export const SITE = {
   // BookingEmail.astro reassembles it in the browser.
   bookingEmail: { user: "ruanh.vandermerwe", domain: "gmail.com" },
   location: "Cape Town, South Africa",
+  // GoatCounter code (the "xxx" in xxx.goatcounter.com). Empty = no counting.
+  goatcounter: "ruanstandup",
   role: "Stand-up Comedian · Cape Town",
 };
 
@@ -36,9 +38,9 @@ export const RESEARCH_NAV = [
 export const SOCIAL = {
   // Comedy profiles. Each one is linked in the footer and listed as "sameAs" in
   // the structured data so Google ties them to this site. Leave empty to hide.
-  instagram: "",
-  tiktok: "",
-  youtube: "",
+  instagram: "https://www.instagram.com/ruanvdmerwe15",
+  tiktok: "https://www.tiktok.com/@ruanh.vandermerwe",
+  youtube: "https://www.youtube.com/channel/UCgE_45rjrZqawZmqPocCfXg",
   // Career profiles, shown on the /research pages.
   scholar:
     "https://scholar.google.com/citations?user=IXdm2doAAAAJ&hl=en",
