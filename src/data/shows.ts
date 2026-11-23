@@ -25,6 +25,14 @@ export type Show = {
 
 export const SHOWS: Show[] = [
   {
+    date: "2026-11-24",
+    time: "19:30",
+    name: "Comedy on Kloof",
+    venue: "Vortex",
+    city: "Cape Town",
+    url: "https://www.quicket.co.za/events/381958-comedy-on-kloof-tuesday-night-comedy-show/?ref=organiser-profile#/",
+  },
+  {
     date: "2026-11-30",
     time: "19:30",
     name: "Open Stage",
