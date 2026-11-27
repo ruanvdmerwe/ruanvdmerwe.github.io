@@ -140,13 +140,26 @@ const showsLd = shows.map((s) => ({
     <div class="band band-purple">
       <section id="watch" class="wrap split">
         <div>
-          <p class="kicker">Work in progress</p>
+          <p class="kicker">What my comedy is about</p>
           <h2>{SITE.showName}</h2>
           <p class="lead">
-            I&rsquo;m creating a show called <em>{SITE.showName}</em>. You&rsquo;ll mostly find
-            me on the Cape Town comedy circuit.
+            You play rugby, you&rsquo;re super confident, you drink brandy and Coke. Everything
+            people expect when they hear my accent. But what if I&rsquo;m actually just a guy
+            overwhelmed by social anxiety?
           </p>
-          <p class="note">This is the bit where I first tell a room about it.</p>
+          <p class="note">
+            Come experience life through the eyes of a socially awkward person who just happens
+            to have a resting racist accent.
+          </p>
+          <p class="note">
+            Expect friendly, relatable stand-up comedy, with a little bit of theatre thrown in,
+            and plenty of awkward observations and self-deprecation. No need to sit in fear of
+            being dragged into crowd work. Just sit back, relax, and enjoy the show.
+          </p>
+          <p class="building">
+            I&rsquo;m building this into a full show. Until then, catch it in pieces
+            {shows.length > 0 ? <>at the <a href="#shows">shows above</a>.</> : <>around Cape Town.</>}
+          </p>
         </div>
         <figure class="clip">
           <video src={clips.show.src} poster={clips.show.poster} controls playsinline preload="none" width="720" height="1280"></video>
@@ -527,7 +540,9 @@ const showsLd = shows.map((s) => ({
     line-height: 1.5;
   }
   .lead em { font-style: normal; font-weight: 700; color: var(--mustard); }
-  .note { margin: 0; opacity: 0.8; }
+  .building { margin: 26px 0 0; font-weight: 700; color: var(--mustard); }
+  .building a { text-decoration: underline; text-underline-offset: 0.2em; }
+  .note { margin: 0 0 14px; max-width: 34em; line-height: 1.6; opacity: 0.9; }
   .split {
     display: grid;
     gap: 48px;
