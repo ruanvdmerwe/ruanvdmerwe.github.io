@@ -1,5 +1,5 @@
 ---
-import "@fontsource/anton";
+import "@fontsource-variable/bricolage-grotesque/standard.css";
 import Base from "~/layouts/Base.astro";
 import { Image } from "astro:assets";
 import { SITE, COMEDY_SOCIALS } from "~/consts";
@@ -62,174 +62,188 @@ const showsLd = shows.map((s) => ({
 ---
 <Base bare>
   <main class="page">
-    <header class="wrap topbar">
-      <a href="/" class="brand">Ruan van der Merwe</a>
-      <nav aria-label="Main">
-        {shows.length > 0 && <a href="#shows">Shows</a>}
-        <a href="#watch">Watch</a>
-        <a href="#book">Book me</a>
-        <a href="/research" class="quiet">Research</a>
-      </nav>
-    </header>
+    <!-- Hero, in the jersey's jade with a tone-on-tone all-over print -->
+    <div class="band band-teal print">
+      <header class="wrap topbar">
+        <a href="/" class="brand">Ruan van der Merwe</a>
+        <nav aria-label="Main">
+          {shows.length > 0 && <a href="#shows">Shows</a>}
+          <a href="#watch">Watch</a>
+          <a href="#book">Book me</a>
+          <a href="/research" class="quiet">Research</a>
+        </nav>
+      </header>
 
-    <!-- Hero -->
-    <section class="wrap hero">
-      <div class="hero-text">
-        <h1>
-          <span class="eyebrow">Ruan van der Merwe &middot; Stand-up comedian, Cape Town</span>
-          <span class="mega">Your fifth favourite socially awkward comedian.</span>
-        </h1>
-        <div class="actions">
-          <a href="#watch" class="btn btn-solid">Watch a clip</a>
-          <a href="#book" class="btn btn-line">Book me</a>
+      <section class="wrap hero">
+        <div class="hero-text">
+          <h1>
+            <span class="patch">Stand-up comedian &middot; Cape Town</span>
+            <span class="name">Ruan van der Merwe</span>
+            <span class="mega">Your <span class="fifth">fifth</span> favourite socially awkward comedian.</span>
+          </h1>
+          <div class="actions">
+            <a href="#watch" class="btn btn-mustard">Watch a clip</a>
+            <a href="#book" class="btn btn-cream">Book me</a>
+          </div>
         </div>
-      </div>
-      <div class="hero-photo">
-        <Image
-          src={hero}
-          alt="Ruan van der Merwe crouched over the mic, mid-story, at Playthings in Cape Town"
-          widths={[400, 640, 960]}
-          sizes="(min-width: 900px) 420px, 90vw"
-          loading="eager"
-          format="webp"
-          quality={80}
-        />
-        <p class="sticker" aria-hidden="true">Now writing:<br /><strong>The Socially Awkward Afrikaner</strong></p>
-      </div>
-    </section>
-
-    <!-- Next shows (hidden when nothing is coming up) -->
-    {shows.length > 0 && (
-      <section id="shows" class="wrap">
-        <p class="kicker">Come say hi</p>
-        <h2 class="section-title">Next shows</h2>
-        <ul class="shows" role="list">
-          {shows.map((s) => (
-            <li>
-              <p class="show-date">
-                <span class="show-day">{s.day}</span>
-                <span class="show-month">{s.month}</span>
-              </p>
-              <div class="show-info">
-                <p class="show-name">{s.name}</p>
-                <p class="show-where">
-                  {s.weekday}{s.time && ` · ${s.time}`} &middot; {s.venue ? `${s.venue}, ${s.city}` : s.city}
-                </p>
-              </div>
-              {s.url && (
-                <a href={s.url} class="btn btn-line show-link" target="_blank" rel="noopener">
-                  Tickets<span class="visually-hidden"> for {s.name} on {s.weekday} {s.day} {s.month}</span>
-                </a>
-              )}
-            </li>
-          ))}
-        </ul>
-        <script is:inline type="application/ld+json" set:html={JSON.stringify(showsLd)} />
+        <div class="hero-photo">
+          <div class="frame">
+            <Image
+              src={hero}
+              alt="Ruan van der Merwe on stage at Playthings in Cape Town, arm in the air, wearing his green Scooby-Doo jersey"
+              widths={[400, 640, 960]}
+              sizes="(min-width: 900px) 420px, 90vw"
+              loading="eager"
+              format="webp"
+              quality={80}
+            />
+          </div>
+          <p class="badge" aria-hidden="true">Now writing<strong>The Socially Awkward Afrikaner</strong></p>
+        </div>
       </section>
+    </div>
+
+    <!-- Next shows, as ticket stubs (hidden when nothing is coming up) -->
+    {shows.length > 0 && (
+      <div class="band band-cream">
+        <section id="shows" class="wrap">
+          <p class="kicker">Come say hi</p>
+          <h2>Next shows</h2>
+          <ul class="tickets" role="list">
+            {shows.map((s) => (
+              <li class="ticket">
+                <p class="stub">
+                  <span class="stub-month">{s.month}</span>
+                  <span class="stub-day">{s.day}</span>
+                  <span class="stub-weekday">{s.weekday}</span>
+                </p>
+                <div class="ticket-body">
+                  <p class="ticket-name">{s.name}</p>
+                  <p class="ticket-where">
+                    {s.time && `${s.time} · `}{s.venue ? `${s.venue}, ${s.city}` : s.city}
+                  </p>
+                </div>
+                {s.url && (
+                  <a href={s.url} class="btn btn-ink ticket-link" target="_blank" rel="noopener">
+                    Tickets<span class="visually-hidden"> for {s.name} on {s.weekday} {s.day} {s.month}</span>
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+          <script is:inline type="application/ld+json" set:html={JSON.stringify(showsLd)} />
+        </section>
+      </div>
     )}
 
     <!-- The show -->
-    <section id="watch" class="wrap split">
-      <div class="split-text">
-        <p class="kicker">Work in progress</p>
-        <h2>{SITE.showName}</h2>
-        <p class="lead">
-          I&rsquo;m creating a show called <em>{SITE.showName}</em>. You&rsquo;ll mostly find
-          me on the Cape Town comedy circuit.
-        </p>
-        <p class="muted">This is the bit where I first tell a room about it.</p>
-      </div>
-      <figure class="clip">
-        <video src={clips.show.src} poster={clips.show.poster} controls playsinline preload="none" width="720" height="1280"></video>
-        <figcaption>Playthings, Cape Town &middot; November 2026</figcaption>
-      </figure>
-    </section>
+    <div class="band band-purple">
+      <section id="watch" class="wrap split">
+        <div>
+          <p class="kicker">Work in progress</p>
+          <h2>{SITE.showName}</h2>
+          <p class="lead">
+            I&rsquo;m creating a show called <em>{SITE.showName}</em>. You&rsquo;ll mostly find
+            me on the Cape Town comedy circuit.
+          </p>
+          <p class="note">This is the bit where I first tell a room about it.</p>
+        </div>
+        <figure class="clip">
+          <video src={clips.show.src} poster={clips.show.poster} controls playsinline preload="none" width="720" height="1280"></video>
+          <figcaption>Playthings, Cape Town &middot; November 2026</figcaption>
+        </figure>
+      </section>
+    </div>
 
     <!-- Around Cape Town -->
-    <section class="wrap">
-      <p class="kicker">On stage</p>
-      <h2 class="section-title">Around Cape Town</h2>
-      <ul class="venues" role="list">
-        {venues.map((v, i) => (
-          <li style={`--tilt: ${[-2, 1.5, -1, 2, -1.5, 1][i % 6]}deg`}>
-            <figure>
-              <Image
-                src={v.src}
-                alt={v.alt}
-                widths={[320, 640]}
-                sizes="(min-width: 900px) 340px, 45vw"
-                format="webp"
-                quality={78}
-                loading="lazy"
-              />
-              <figcaption>{v.name}</figcaption>
-            </figure>
-          </li>
-        ))}
-      </ul>
-    </section>
+    <div class="band band-cream">
+      <section class="wrap">
+        <p class="kicker">On stage</p>
+        <h2>Around Cape Town</h2>
+        <ul class="venues" role="list">
+          {venues.map((v, i) => (
+            <li style={`--tilt: ${[-1.5, 1, -0.5, 1.5, -1, 0.5][i % 6]}deg`}>
+              <figure>
+                <Image
+                  src={v.src}
+                  alt={v.alt}
+                  widths={[320, 640]}
+                  sizes="(min-width: 900px) 340px, 45vw"
+                  format="webp"
+                  quality={78}
+                  loading="lazy"
+                />
+                <figcaption>{v.name}</figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-    <!-- No AI -->
-    <section class="wrap">
-      <div>
+      <!-- No AI -->
+      <section class="wrap no-ai">
         <p class="kicker">No AI was used in the making of this comedy</p>
         <blockquote>
           I&rsquo;d rather bomb with my own bad idea than kill with a stolen one.
         </blockquote>
-        <p class="muted">
+        <p class="body-text">
           I build machine learning systems for a living, so to be absolutely clear: none of my
           material is written, edited, or workshopped with AI. Every joke is mine, written by
           hand and tested in front of real people. I don&rsquo;t think AI belongs in art,
           comedy included.
         </p>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <!-- Book -->
-    <section id="book" class="wrap">
-      <div class="book">
+    <div class="band band-ink">
+      <section id="book" class="wrap book">
         <h2>Book me</h2>
         <p class="lead">
           To book me for a show or a private event, send me an email and I&rsquo;ll reply.
         </p>
-        <BookingEmail class="btn btn-solid btn-big" label="Email me" />
-      </div>
-    </section>
+        <BookingEmail class="btn btn-mustard btn-big" label="Email me" />
+      </section>
 
-    <footer class="wrap foot">
-      <span class="brand">Ruan van der Merwe</span>
-      <nav aria-label="Elsewhere">
-        {COMEDY_SOCIALS.map((s) => (
-          <a href={s.href} target="_blank" rel="noopener me">{s.label}</a>
-        ))}
-        <a href="/research" class="quiet">By day: ML research &rarr;</a>
-      </nav>
-      <p class="muted small">&copy; {year} {SITE.author}</p>
-    </footer>
+      <footer class="wrap foot">
+        <span class="brand">Ruan van der Merwe</span>
+        <nav aria-label="Elsewhere">
+          {COMEDY_SOCIALS.map((s) => (
+            <a href={s.href} target="_blank" rel="noopener me">{s.label}</a>
+          ))}
+          <a href="/research" class="quiet">By day: ML research &rarr;</a>
+        </nav>
+        <p class="small">&copy; {year} {SITE.author}</p>
+      </footer>
+    </div>
   </main>
 </Base>
 
 <style>
   :global(html[data-theme]),
   :global(html[data-theme] body) {
-    background: #0d0c0b;
+    background: #10282b;
   }
 
+  /* Colours lifted from the green Scooby-Doo jersey. */
   .page {
-    --ink: #f4f1ea;
-    --soft: #d9d4c9;
-    --mute: #a39e93;
-    --line: #2c2925;
-    --amber: #ffb547;
-    --night: #0d0c0b;
+    --teal: #1fa78f;
+    --teal-deep: #168672;
+    --ink: #10282b;
+    --mustard: #f6cf3a;
+    --purple: #6a3fa6;
+    --purple-deep: #4c2a80;
+    --brown: #8a5a2f;
+    --red: #d8323f;
+    --cream: #fff4d6;
+    --display: "Bricolage Grotesque Variable", "Arial Narrow", sans-serif;
+    --body: "p22-underground", "Bricolage Grotesque Variable", system-ui, sans-serif;
     color: var(--ink);
-    background: var(--night);
-    min-height: 100vh;
-    font-family: "Inter Variable", system-ui, sans-serif;
+    font-family: var(--body);
+    font-size: 1.05rem;
     overflow-x: clip;
   }
 
-  /* :where() keeps this at zero extra specificity so button colours win. */
   .page :where(a) {
     color: inherit;
     text-decoration: none;
@@ -244,13 +258,58 @@ const showsLd = shows.map((s) => ({
     .wrap { padding: 0 40px; }
   }
 
-  h1, h2, .brand, blockquote, .sticker strong {
-    font-family: "Anton", Impact, sans-serif;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
-    color: var(--ink);
+  /* Bands: each section is a block of one jersey colour. */
+  .band { padding: 96px 0; position: relative; }
+  .band-teal { background: var(--teal); }
+  .band-cream { background: var(--cream); }
+  .band-purple { background: var(--purple); color: var(--cream); }
+  .band-ink { background: var(--ink); color: var(--cream); padding-bottom: 0; }
+  .band:first-child { padding-top: 0; }
+  /* Scalloped edge where one colour meets the next. */
+  .band + .band::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 14px;
+    background: radial-gradient(circle at 14px 0, var(--edge) 13px, transparent 14px) 0 0 / 28px 14px repeat-x;
   }
+  .band-teal + .band { --edge: var(--teal); }
+  .band-cream + .band { --edge: var(--cream); }
+  .band-purple + .band { --edge: var(--purple); }
+
+  /* Tone-on-tone all-over print: stars, bolts and squiggles. */
+  .print {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' fill='none' stroke='%231c9f88' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M38 22l6 14 15 1-12 9 4 15-13-8-13 8 4-15-12-9 15-1z'/%3E%3Cpath d='M150 30l-14 26h14l-12 26'/%3E%3Cpath d='M40 200q12-14 24 0t24 0 24 0'/%3E%3Ccircle cx='230' cy='230' r='8'/%3E%3C/svg%3E");
+    background-size: 300px 300px;
+  }
+
+  h1, h2, .brand, blockquote, .ticket-name, .stub-day, .badge strong {
+    font-family: var(--display);
+    font-weight: 800;
+    font-stretch: 75%;
+    letter-spacing: -0.01em;
+    line-height: 0.92;
+  }
+  h2 {
+    margin: 0 0 32px;
+    font-size: clamp(2.8rem, 7vw, 5.2rem);
+    text-transform: uppercase;
+  }
+
+  .kicker {
+    display: inline-block;
+    margin: 0 0 18px;
+    font-family: var(--body);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .band-cream .kicker { color: var(--purple); }
+  .band-purple .kicker { color: var(--mustard); }
+  .band-teal .kicker { color: var(--cream); }
 
   /* Top bar */
   .topbar {
@@ -258,251 +317,197 @@ const showsLd = shows.map((s) => ({
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 12px 24px;
-    padding-top: 24px;
-    padding-bottom: 24px;
+    gap: 8px 24px;
+    padding-top: 22px;
+    padding-bottom: 22px;
   }
-  .brand { font-size: 1.3rem; }
+  .brand { font-size: 1.5rem; text-transform: uppercase; }
   .topbar nav, .foot nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px 24px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
+    gap: 2px 22px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
   }
-  .topbar nav a, .foot nav a {
-    padding: 10px 0;
-  }
-  .page nav a:hover { color: var(--amber); }
-  .quiet { color: var(--mute) !important; }
-  .quiet:hover { color: var(--amber) !important; }
+  .topbar nav a, .foot nav a { padding: 10px 0; }
+  .topbar nav a:hover { color: var(--cream); }
+  .topbar .quiet { opacity: 0.7; }
 
   /* Hero */
   .hero {
     display: grid;
-    gap: 48px;
+    gap: 56px;
     align-items: center;
-    padding-top: 32px;
-    padding-bottom: 96px;
+    padding-top: 24px;
+    padding-bottom: 40px;
   }
   @media (min-width: 900px) {
-    .hero { grid-template-columns: minmax(0, 1fr) 420px; gap: 64px; padding-top: 48px; }
+    .hero { grid-template-columns: minmax(0, 1fr) 400px; gap: 64px; padding-top: 40px; }
   }
-  .eyebrow {
-    display: block;
-    font-family: "Inter Variable", system-ui, sans-serif;
+  h1 { margin: 0; }
+  .patch {
+    display: inline-block;
+    padding: 8px 14px 7px;
+    background: var(--red);
+    color: var(--cream);
+    border-radius: 8px;
+    font-family: var(--body);
     font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    color: var(--amber);
-    margin-bottom: 20px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-transform: uppercase;
   }
+  .name {
+    display: block;
+    margin: 26px 0 12px;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  /* Mustard lettering with a small purple drop, like the jersey print. */
   .mega {
     display: block;
-    font-size: clamp(3.2rem, 9vw, 7.4rem);
-    line-height: 0.9;
+    font-size: clamp(3rem, 11.5vw, 7.2rem);
+    line-height: 0.88;
+    text-transform: uppercase;
+    color: var(--mustard);
+    text-shadow: 3px 3px 0 var(--purple), 4px 4px 0 var(--purple);
+  }
+  .fifth {
+    color: var(--ink);
+    position: relative;
+    white-space: nowrap;
   }
   .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 14px;
     margin-top: 40px;
   }
+
+  /* Buttons: chunky, outlined, with a hard ink shadow. */
   .page :global(.btn) {
-    text-decoration: none;
     display: inline-flex;
     align-items: center;
-    min-height: 48px;
-    padding: 0 26px;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    letter-spacing: 0.08em;
+    min-height: 50px;
+    padding: 0 24px;
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: 3px 3px 0 var(--ink);
+    color: var(--ink);
+    font-family: var(--body);
+    font-weight: 700;
+    font-size: 0.92rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    transition: transform 0.15s ease, background 0.15s ease;
+    text-decoration: none;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
   }
-  .page :global(.btn:hover) { transform: translateY(-2px); }
-  .page :global(.btn-solid) { background: var(--amber); color: var(--night); }
-  .page .btn-line { border: 1.5px solid var(--ink); }
-  .page .btn-line:hover { border-color: var(--amber); color: var(--amber); }
-  .page :global(.btn-big) { min-height: 60px; padding: 0 36px; font-size: 1rem; }
+  .page :global(.btn:hover) { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+  .page :global(.btn:active) { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+  .page :global(.btn-mustard) { background: var(--mustard); }
+  .page .btn-cream { background: var(--cream); }
+  .page .btn-ink { background: var(--ink); color: var(--cream); box-shadow: none; }
+  .page .btn-ink:hover { box-shadow: none; background: var(--purple); }
+  .page :global(.btn-big) { min-height: 62px; padding: 0 34px; font-size: 1.02rem; }
 
   .hero-photo {
     position: relative;
-    max-width: 420px;
+    max-width: 400px;
     width: 100%;
     justify-self: center;
   }
-  .hero-photo img {
+  .frame {
+    border: 3px solid var(--ink);
+    border-radius: 20px;
+    overflow: hidden;
+    transform: rotate(1.5deg);
+    box-shadow: 10px 10px 0 var(--purple);
+    background: var(--ink);
+  }
+  .frame img {
     display: block;
     width: 100%;
     height: auto;
     aspect-ratio: 4 / 5;
     object-fit: cover;
-    object-position: 50% 62%;
-    border-radius: 6px;
+    object-position: 50% 40%;
   }
-  .sticker {
+  .badge {
     position: absolute;
-    left: -28px;
-    bottom: 36px;
+    left: -26px;
+    bottom: 30px;
     margin: 0;
-    padding: 14px 18px;
-    max-width: 230px;
-    background: var(--amber);
-    color: var(--night);
+    max-width: 220px;
+    padding: 12px 16px 14px;
+    background: var(--mustard);
+    border: 2px solid var(--ink);
+    border-radius: 12px;
     font-size: 0.72rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    line-height: 1.3;
-    transform: rotate(-6deg);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transform: rotate(-4deg);
   }
-  .sticker strong {
+  .badge strong {
     display: block;
     margin-top: 4px;
-    font-size: 1.45rem;
-    line-height: 1;
-    letter-spacing: 0.01em;
-    color: var(--night);
+    font-size: 1.6rem;
+    letter-spacing: 0;
+    color: var(--purple-deep);
   }
   @media (max-width: 899px) {
-    .sticker { left: -8px; }
+    .badge { left: -6px; }
   }
 
-  /* Sections */
-  section + section { margin-top: 120px; }
-  .kicker {
-    margin: 0 0 14px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--amber);
-  }
-  h2, .section-title {
-    margin: 0 0 24px;
-    font-size: clamp(2.6rem, 6vw, 4.6rem);
-    line-height: 0.95;
-  }
-  .lead {
-    margin: 0 0 18px;
-    font-size: 1.25rem;
-    line-height: 1.55;
-    color: var(--soft);
-    max-width: 34em;
-  }
-  .lead em { font-style: normal; color: var(--ink); font-weight: 600; }
-  .muted { color: var(--mute); line-height: 1.6; max-width: 38em; }
-  .small { font-size: 0.9rem; }
-
-  .split {
-    display: grid;
-    gap: 40px;
-    align-items: center;
-  }
-  @media (min-width: 900px) {
-    .split { grid-template-columns: minmax(0, 1fr) 340px; gap: 72px; }
-  }
-
-  .clip {
-    margin: 0;
-    width: 100%;
-    max-width: 340px;
-    justify-self: center;
-  }
-  .clip video {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 9 / 16;
-    background: #000;
-    border-radius: 6px;
-  }
-  .clip figcaption {
-    margin-top: 10px;
-    font-size: 0.8rem;
-    color: var(--mute);
-  }
-
-  .venues {
+  /* Tickets */
+  .tickets {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
+    gap: 18px;
   }
-  @media (min-width: 760px) {
-    .venues { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
-  }
-  .venues li {
-    transform: rotate(var(--tilt));
-    transition: transform 0.2s ease;
-  }
-  .venues li:hover { transform: rotate(0deg) scale(1.03); }
-  .venues figure {
-    margin: 0;
-    padding: 8px 8px 0;
-    background: var(--ink);
-    border-radius: 2px;
-  }
-  .venues img {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-  }
-  .venues figcaption {
-    padding: 10px 2px 12px;
-    color: var(--night);
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  /* Next shows */
-  .shows {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--line);
-  }
-  .shows li {
+  .ticket {
+    position: relative;
     display: grid;
-    grid-template-columns: 64px minmax(0, 1fr);
-    gap: 4px 24px;
+    grid-template-columns: 92px minmax(0, 1fr);
     align-items: center;
-    padding: 22px 0;
-    border-bottom: 1px solid var(--line);
+    gap: 14px 24px;
+    padding-right: 20px;
+    background: #fff;
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    overflow: hidden;
   }
-  @media (min-width: 640px) {
-    .shows li { grid-template-columns: 80px minmax(0, 1fr) auto; gap: 32px; }
+  @media (min-width: 680px) {
+    .ticket { grid-template-columns: 110px minmax(0, 1fr) auto; padding-right: 26px; }
   }
-  .shows p { margin: 0; }
-  .show-date {
-    font-family: "Anton", Impact, sans-serif;
+  .ticket p { margin: 0; }
+  .stub {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 0;
+    background: var(--purple);
+    color: var(--cream);
+    border-right: 2px dashed var(--cream);
     text-transform: uppercase;
-    line-height: 0.95;
     text-align: center;
   }
-  .show-day { display: block; font-size: 2.6rem; color: var(--amber); }
-  .show-month { display: block; font-size: 1rem; letter-spacing: 0.1em; color: var(--soft); }
-  .show-name {
-    font-family: "Anton", Impact, sans-serif;
-    text-transform: uppercase;
-    font-size: clamp(1.4rem, 3vw, 2rem);
-    line-height: 1.05;
-  }
-  .show-where { margin-top: 6px !important; color: var(--mute); }
-  .page .show-link { min-height: 44px; padding: 0 20px; font-size: 0.8rem; justify-self: start; }
-  @media (max-width: 639px) {
-    .show-link { grid-column: 2; margin-top: 12px; }
+  .stub-month, .stub-weekday { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.16em; }
+  .stub-day { font-size: 3rem; color: var(--mustard); margin: 2px 0; }
+  .ticket-body { padding: 18px 0; }
+  .ticket-name { font-size: clamp(1.6rem, 3.2vw, 2.3rem); text-transform: uppercase; }
+  .ticket-where { margin-top: 6px !important; color: #3d5254; font-weight: 500; }
+  .page .ticket-link { min-height: 44px; padding: 0 18px; font-size: 0.8rem; justify-self: start; }
+  @media (max-width: 679px) {
+    .ticket-link { grid-column: 2; margin: -6px 0 18px; }
   }
   .visually-hidden {
     position: absolute;
@@ -513,42 +518,128 @@ const showsLd = shows.map((s) => ({
     white-space: nowrap;
   }
 
+  /* The show */
+  .band-purple h2 { color: var(--mustard); }
+  .lead {
+    margin: 0 0 18px;
+    max-width: 32em;
+    font-size: 1.3rem;
+    line-height: 1.5;
+  }
+  .lead em { font-style: normal; font-weight: 700; color: var(--mustard); }
+  .note { margin: 0; opacity: 0.8; }
+  .split {
+    display: grid;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .split { grid-template-columns: minmax(0, 1fr) 320px; gap: 80px; }
+  }
+  .clip {
+    margin: 0;
+    width: 100%;
+    max-width: 320px;
+    justify-self: center;
+    transform: rotate(-1.5deg);
+  }
+  .clip video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 9 / 16;
+    background: #000;
+    border: 3px solid var(--ink);
+    border-radius: 20px;
+    box-shadow: 8px 8px 0 var(--mustard);
+  }
+  .clip figcaption {
+    margin-top: 22px;
+    font-size: 0.85rem;
+    opacity: 0.85;
+  }
+
+  /* Venues: prints */
+  .venues {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 18px;
+  }
+  @media (min-width: 760px) {
+    .venues { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px 32px; }
+  }
+  .venues li {
+    position: relative;
+    transform: rotate(var(--tilt));
+    transition: transform 0.2s ease;
+  }
+  .venues li:hover { transform: rotate(0deg) scale(1.03); }
+  .venues figure {
+    margin: 0;
+    padding: 8px 8px 0;
+    background: #fff;
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    box-shadow: 4px 4px 0 var(--teal);
+  }
+  .venues img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 2px;
+  }
+  .venues figcaption {
+    padding: 10px 2px 12px;
+    font-family: var(--display);
+    font-weight: 800;
+    font-stretch: 75%;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+  }
+
   /* No AI */
+  .no-ai { margin-top: 110px; padding-top: 64px; border-top: 2px dashed rgba(16, 40, 43, 0.2); }
+  .no-ai blockquote { color: var(--purple-deep); }
   blockquote {
-    margin: 0 0 20px;
-    font-size: clamp(2rem, 4.4vw, 3.4rem);
-    line-height: 1.02;
+    margin: 0 0 26px;
+    max-width: 18em;
+    font-size: clamp(2.3rem, 5.4vw, 4.4rem);
+    text-transform: uppercase;
   }
+  .body-text { margin: 0; max-width: 38em; line-height: 1.65; font-size: 1.1rem; }
 
-  /* Book */
-  .book {
-    background: #1a1816;
-    border-radius: 8px;
-    padding: 56px 28px;
-    text-align: center;
+  /* Book + footer */
+  .book { text-align: center; padding-bottom: 24px; }
+  .book h2 {
+    color: var(--mustard);
+    font-size: clamp(3.4rem, 11vw, 8rem);
   }
-  @media (min-width: 640px) {
-    .book { padding: 72px 56px; }
-  }
-  .book .lead, .book .muted { margin-left: auto; margin-right: auto; }
-  .book :global(.btn-big) { margin: 12px 0 20px; }
+  .book .lead { margin: 0 auto 30px; }
+  .book :global(.btn) { box-shadow: 5px 5px 0 var(--purple); }
 
-  /* Footer */
   .foot {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 8px 24px;
-    margin-top: 120px;
-    padding-top: 32px;
+    margin-top: 96px;
+    padding-top: 28px;
     padding-bottom: 40px;
-    border-top: 1px solid var(--line);
+    border-top: 2px solid rgba(255, 244, 214, 0.15);
   }
-  .foot .small { flex-basis: 100%; margin: 8px 0 0; }
+  .foot .brand { color: var(--mustard); }
+  .foot nav a:hover { color: var(--mustard); }
+  .foot .quiet { opacity: 0.7; }
+  .small { flex-basis: 100%; margin: 8px 0 0; font-size: 0.85rem; opacity: 0.6; }
 
   @media (prefers-reduced-motion: reduce) {
     .page :global(.btn), .venues li { transition: none; }
-    .page :global(.btn:hover) { transform: none; }
+    .page :global(.btn:hover), .page :global(.btn:active) { transform: none; }
   }
 </style>

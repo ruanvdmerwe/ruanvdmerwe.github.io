@@ -4,23 +4,23 @@
 
 @layer base {
   :root {
-    --bg: #fafaf7;
-    --surface: #f3f1ea;
-    --ink: #1a1a1a;
-    --muted: #6b6b6b;
-    --rule: #e3dfd5;
-    --accent: #b34700;
-    --accent-soft: #d97b3a;
+    --bg: #f7faf9;
+    --surface: #e9f3f0;
+    --ink: #10282b;
+    --muted: #55696a;
+    --rule: #d3e3df;
+    --accent: #0f7a68;
+    --accent-soft: #6a3fa6;
   }
 
   :root[data-theme="dark"] {
-    --bg: #0e0e10;
-    --surface: #17171a;
-    --ink: #e8e6df;
-    --muted: #9a9890;
-    --rule: #2a2a2e;
-    --accent: #e8945a;
-    --accent-soft: #b34700;
+    --bg: #0c1c1e;
+    --surface: #132a2d;
+    --ink: #e8f1ee;
+    --muted: #93a8a6;
+    --rule: #22393c;
+    --accent: #3fcfb3;
+    --accent-soft: #a585d6;
   }
 
   html {
@@ -44,9 +44,9 @@
   }
 
   h1, h2, h3, h4 {
-    font-family: "Fraunces Variable", Georgia, serif;
-    font-feature-settings: "ss01", "ss03";
-    letter-spacing: -0.01em;
+    font-family: "Bricolage Grotesque Variable", system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.015em;
     color: var(--ink);
   }
 

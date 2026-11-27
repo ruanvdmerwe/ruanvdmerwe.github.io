@@ -15,6 +15,9 @@ export const SITE = {
   // BookingEmail.astro reassembles it in the browser.
   bookingEmail: { user: "ruanh.vandermerwe", domain: "gmail.com" },
   location: "Cape Town, South Africa",
+  // Adobe Fonts web project ID for P22 Underground (the "abc1234" in
+  // use.typekit.net/abc1234.css). Empty = fall back to Bricolage Grotesque.
+  adobeFontsKit: "",
   // GoatCounter code (the "xxx" in xxx.goatcounter.com). Empty = no counting.
   goatcounter: "ruanstandup",
   role: "Stand-up Comedian · Cape Town",

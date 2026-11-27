@@ -18,7 +18,7 @@ export default {
       },
       fontFamily: {
         sans: ['"Inter Variable"', "system-ui", "sans-serif"],
-        serif: ['"Fraunces Variable"', "Georgia", "serif"],
+        serif: ['"Bricolage Grotesque Variable"', "system-ui", "sans-serif"],
         mono: ['"JetBrains Mono Variable"', "ui-monospace", "monospace"],
       },
       maxWidth: {
